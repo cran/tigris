@@ -1,9 +1,10 @@
-386960b0a90a044cec8de425b011cfee *DESCRIPTION
+58e2a8a5f28519cdc854c89c9090f641 *DESCRIPTION
 2f92451630472db874a3f6fe1c0012a7 *LICENSE
 7a3398cc58dd04bd20cc80fe9ab7108b *NAMESPACE
-4aa25a4a046b12a3457b6d5a840343f3 *R/enumeration_units.R
+cbdc948a078f1d7838220b926c2e9826 *NEWS
+3b54a59251a824ba69c018a8b3c74f17 *R/enumeration_units.R
 536d00908b50ea25ecf1353dff4b62fd *R/fips_codes.R
-3c617c7ebe5f79a9983ad8eb3ba1bbea *R/helpers.R
+58856c2af6e05be11cae50ff2fbe6fc5 *R/helpers.R
 568ff373fae90a34b31269afd7c923de *R/landmarks.R
 80b0fb4ae8760bc9f370f46ce8333ae4 *R/legislative.R
 de5c85acd2e0d607fac23f570cf9c997 *R/metro_areas.R
@@ -17,12 +18,12 @@ bd022d3bd32adcdb2e76427d255e19cd *R/transportation.R
 aec3f3241f52fe3026035f866cf70dea *R/utils.R
 03f733cdfc409069a69174586f75faf9 *R/water.R
 96ad15c7bed1eb3281fd06acc3853d8e *R/zzz.R
-56585da7f8f56f097426b867874e4498 *README.md
+697135a7d46fd09279a64bda32658575 *README.md
 c6241a782063394577095123f00fd8c7 *data/fips_codes.rda
 4518fa805958a4ab1c9b160ad1b4dfb5 *man/alaska_native_regional_corporations.Rd
 692f4a88a576817c7729226705d1d23e *man/area_water.Rd
 bcf1452fda9c32ee700f6c83e0e98718 *man/block_groups.Rd
-fabd30ccd1168ee7a2456ebba6d03156 *man/blocks.Rd
+036e86f20a7480a2645c1a3d83536f84 *man/blocks.Rd
 2088620eafc57659883450cc29fe3616 *man/coastline.Rd
 fbefffb53d9aa00eff1a4ec0903d27ca *man/combined_statistical_areas.Rd
 14e654dcf332489e0255b860ab595870 *man/congressional_districts.Rd
@@ -32,7 +33,7 @@ ce9d1d5faa175d786c72cdc151b95008 *man/divisions.Rd
 66a25e3b863515e184c56b3beeb4aedc *man/filter_place.Rd
 ffc76460a029a5e7a43b5cdaca9611d3 *man/filter_state.Rd
 bee59f8d91b1d9fe34cd7658aa510da0 *man/fips_codes.Rd
-6ac35eade26629eb7708b7557c00091f *man/geo_join.Rd
+345047aa3a6b71c94bff05f29c4908c3 *man/geo_join.Rd
 6d47e6c02c2d5e9b5c4593b25b1a8cb6 *man/grep_place.Rd
 7163d361e69e6553cfcdc62f460f221f *man/grep_state.Rd
 edc766881404a230e4f25ea2382e4da9 *man/is_tigris.Rd

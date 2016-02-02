@@ -441,10 +441,10 @@ zctas <- function(cb = FALSE, starts_with = NULL, detailed = TRUE, ...) {
 #' @param county The three-digit FIPS code (string) of the county you'd like to
 #'        subset for, or a vector of FIPS codes if you desire multiple counties.
 #'        Can also be a county name or vector of names.
+#' @param year The year for which you'd like to download data (defaults to 2014).
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
-#'        (defaults to \code{FALSE}), and \code{year}, the year for which you'd like to download data
-#'        (defaults to 2014).
+#'        (defaults to \code{FALSE}).
 #' @family general area functions
 #' @seealso \url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2014/TGRSHP2014_TechDoc.pdf}
 #' @export
@@ -461,17 +461,29 @@ zctas <- function(cb = FALSE, starts_with = NULL, detailed = TRUE, ...) {
 #'   addPolygons()
 #'
 #' }
-blocks <- function(state, county = NULL, ...) {
+blocks <- function(state, county = NULL, year = 2014, ...) {
 
   state <- validate_state(state)
 
   if (is.null(state)) stop("Invalid state", call.=FALSE)
 
-  url <- paste0("http://www2.census.gov/geo/tiger/TIGER2014/TABBLOCK/tl_2014_",
-                state,
-                "_tabblock10.zip")
+  if (year >= 2014) {
+    url <- paste0("http://www2.census.gov/geo/tiger/TIGER2014/TABBLOCK/tl_2014_",
+                  state,
+                  "_tabblock10.zip")
+  } else if (year >= 2011) {
+    url <- paste0("http://www2.census.gov/geo/tiger/TIGER2014/TABBLOCK/tl_2014_",
+                  state,
+                  "_tabblock.zip")
+  } else if (year == 2010) {
+    url <- paste0("http://www2.census.gov/geo/tiger/TIGER2010/TABBLOCK/2010/tl_2014_",
+                  state,
+                  "_tabblock10.zip")
+  } else {
+    stop()
+  }
 
-  blks <- load_tiger(url, tigris_type="block", ...)
+  blks <- load_tiger(url, tigris_type="block", year = year, ...)
 
   if (!is.null(county)) {
 
