@@ -13,9 +13,9 @@
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
 #'        (defaults to \code{FALSE}), and \code{year}, the year for which you'd like to download data
-#'        (defaults to 2014).
+#'        (defaults to 2015).
 #' @family native/tribal geometries functions
-#' @seealso \url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2014/TGRSHP2014_TechDoc.pdf}
+#' @seealso \url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2015/TGRSHP2015_TechDoc.pdf}
 #' @export
 #' @examples \dontrun{
 #' library(tigris)
@@ -44,11 +44,11 @@ native_areas <- function(cb = FALSE, detailed = TRUE, ...) {
 
   if (cb == TRUE) {
 
-    url <- "http://www2.census.gov/geo/tiger/GENZ2014/shp/cb_2014_us_aiannh_500k.zip"
+    url <- "http://www2.census.gov/geo/tiger/GENZ2015/shp/cb_2015_us_aiannh_500k.zip"
 
   } else {
 
-    url <- "http://www2.census.gov/geo/tiger/TIGER2014/AIANNH/tl_2014_us_aiannh.zip"
+    url <- "http://www2.census.gov/geo/tiger/TIGER2015/AIANNH/tl_2015_us_aiannh.zip"
 
   }
 
@@ -63,12 +63,12 @@ native_areas <- function(cb = FALSE, detailed = TRUE, ...) {
 #' recognized American Indian reservations and/or off-reservation trust lands or Oklahoma tribal statistical
 #' areas (OTSAs)."  For more information, please see the link provided.
 #'
+#' @param year The year for which you'd like to download data (defaults to 2015).
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
-#'        (defaults to \code{FALSE}), and \code{year}, the year for which you'd like to download data
-#'        (defaults to 2014).
+#'        (defaults to \code{FALSE}).
 #' @family native/tribal geometries functions
-#' @seealso \url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2014/TGRSHP2014_TechDoc.pdf}
+#' @seealso \url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2015/TGRSHP2015_TechDoc.pdf}
 #' @export
 #' @examples \dontrun{
 #' library(tigris)
@@ -81,9 +81,21 @@ native_areas <- function(cb = FALSE, detailed = TRUE, ...) {
 #'               color = "black",
 #'               weight = 0.5)
 #' }
-tribal_subdivisions_national <- function(...) {
+tribal_subdivisions_national <- function(year = 2015, ...) {
 
-  url <- "http://www2.census.gov/geo/tiger/TIGER2014/AITS/tl_2014_us_aitsn.zip"
+  if (year == 2015) {
+
+    url <- "http://www2.census.gov/geo/tiger/TIGER2015/AITSN/tl_2015_us_aitsn.zip"
+
+  } else {
+
+    url <- paste0("http://www2.census.gov/geo/tiger/TIGER",
+                  as.character(year),
+                  "/AITS/tl_",
+                  as.character(year),
+                  "_us_aitsn.zip")
+
+  }
 
   return(load_tiger(url, ...))
 
@@ -102,19 +114,19 @@ tribal_subdivisions_national <- function(...) {
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
 #'        (defaults to \code{FALSE}), and \code{year}, the year for which you'd like to download data
-#'        (defaults to 2014).
+#'        (defaults to 2015).
 #' @family native/tribal geometries functions
-#' @seealso \url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2014/TGRSHP2014_TechDoc.pdf}
+#' @seealso \url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2015/TGRSHP2015_TechDoc.pdf}
 #' @export
 alaska_native_regional_corporations <- function(cb = FALSE, ...) {
 
   if (cb == TRUE) {
 
-    url <- "http://www2.census.gov/geo/tiger/GENZ2014/shp/cb_2014_02_anrc_500k.zip"
+    url <- "http://www2.census.gov/geo/tiger/GENZ2015/shp/cb_2015_02_anrc_500k.zip"
 
   } else {
 
-    url <- "http://www2.census.gov/geo/tiger/TIGER2014/ANRC/tl_2014_02_anrc.zip"
+    url <- "http://www2.census.gov/geo/tiger/TIGER2015/ANRC/tl_2015_02_anrc.zip"
 
   }
 
@@ -142,9 +154,9 @@ alaska_native_regional_corporations <- function(cb = FALSE, ...) {
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
 #'        (defaults to \code{FALSE}), and \code{year}, the year for which you'd like to download data
-#'        (defaults to 2014).
+#'        (defaults to 2015).
 #' @family native/tribal geometries functions
-#' @seealso \url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2014/TGRSHP2014_TechDoc.pdf}
+#' @seealso \url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2015/TGRSHP2015_TechDoc.pdf}
 #' @export
 #' @examples \dontrun{
 #' library(tigris)
@@ -159,7 +171,7 @@ alaska_native_regional_corporations <- function(cb = FALSE, ...) {
 #' }
 tribal_block_groups <- function(...) {
 
-  url <- "http://www2.census.gov/geo/tiger/TIGER2014/TBG/tl_2014_us_tbg.zip"
+  url <- "http://www2.census.gov/geo/tiger/TIGER2015/TBG/tl_2015_us_tbg.zip"
 
   return(load_tiger(url, ...))
 
@@ -180,9 +192,9 @@ tribal_block_groups <- function(...) {
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
 #'        (defaults to \code{FALSE}), and \code{year}, the year for which you'd like to download data
-#'        (defaults to 2014).
+#'        (defaults to 2015).
 #' @family native/tribal geometries functions
-#' @seealso \url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2014/TGRSHP2014_TechDoc.pdf}
+#' @seealso \url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2015/TGRSHP2015_TechDoc.pdf}
 #' @export
 #' @examples \dontrun{
 #' library(tigris)
@@ -197,7 +209,7 @@ tribal_block_groups <- function(...) {
 #' }
 tribal_census_tracts <- function(...) {
 
-  url <- "http://www2.census.gov/geo/tiger/TIGER2014/TTRACT/tl_2014_us_ttract.zip"
+  url <- "http://www2.census.gov/geo/tiger/TIGER2015/TTRACT/tl_2015_us_ttract.zip"
 
   return(load_tiger(url, ...))
 

@@ -4,19 +4,23 @@
 # also uses global option "tigris_use_cache" to determine whether new data files will
 # be cached or not. (def: TRUE)
 #
-# Year currently defaults to 2014; give option to download other years
+# Year currently defaults to 2015; give option to download other years
 
 
 load_tiger <- function(url,
                        refresh=getOption("tigris_refresh", FALSE),
                        tigris_type=NULL,
-                       year = getOption("tigris_year", 2014)) {
+                       year = getOption("tigris_year", 2015)) {
 
-  if (year != 2014) {
+  if (year != 2015) {
 
-    url <- gsub("2014", as.character(year), url)
+    url <- gsub("2015", as.character(year), url)
 
-    url <- gsub("shp/", "", url) # A little dirty but should work for now for CB files prior to 2014
+    if (year < 2014) {
+
+      url <- gsub("shp/", "", url) # A little dirty but should work for now for CB files prior to 2014
+
+    }
 
   }
 
@@ -36,7 +40,7 @@ load_tiger <- function(url,
 
       file_loc <- file.path(cache_dir, tiger_file)
 
-      if (!file.exists(file_loc)) {
+      if (refresh | !file.exists(file_loc)) {
         try(GET(url,
                 write_disk(file_loc, overwrite=refresh),
                 progress(type="down")), silent=TRUE)

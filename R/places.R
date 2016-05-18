@@ -33,7 +33,7 @@
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
 #'        (defaults to \code{FALSE}), and \code{year}, the year for which you'd like to download data
-#'        (defaults to 2014).
+#'        (defaults to 2015).
 #' @family general area functions
 #' @seealso \url{https://www.census.gov/geo/reference/gtc/gtc_place.html}
 #' @export
@@ -44,15 +44,15 @@ places <- function(state, cb = FALSE, detailed = TRUE, ...) {
   if (is.null(state)) stop("Invalid state", call.=FALSE)
 
   if (detailed == FALSE) {
-    cb = TRUE
+    cb <- TRUE
     message("The `detailed` parameter is deprecated.  Use `cb` instead.")
   }
 
-  if (detailed == FALSE) {
-    url <- paste0("http://www2.census.gov/geo/tiger/GENZ2014/shp/cb_2014_",
+  if (cb == TRUE) {
+    url <- paste0("http://www2.census.gov/geo/tiger/GENZ2015/shp/cb_2015_",
                   state, "_place_500k.zip")
   } else {
-    url <- paste0("http://www2.census.gov/geo/tiger/TIGER2014/PLACE/tl_2014_",
+    url <- paste0("http://www2.census.gov/geo/tiger/TIGER2015/PLACE/tl_2015_",
                   state, "_place.zip")
   }
 

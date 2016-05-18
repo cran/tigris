@@ -2,11 +2,11 @@
 
 [![Travis-CI Build Status](https://travis-ci.org/walkerke/tigris.svg?branch=master)](https://travis-ci.org/walkerke/tigris)  ![](http://www.r-pkg.org/badges/version/tigris)  ![](http://cranlogs.r-pkg.org/badges/grand-total/tigris)
 
-Download and use Census TIGER shapefiles in R
+Download and use Census TIGER/Line shapefiles in R
 
-CRAN version: __0.2__ (updated 1 February 2016)
+CRAN version: __0.2.2__ (updated 15 February 2016)
 
-Dev version: __0.2.0.9000__ (updated 1 February 2016)
+Dev version: __0.3.0.9000__ (updated 16 May 2016)
 
 `tigris` is an R package that allows users to directly download and use TIGER/Line shapefiles (<https://www.census.gov/geo/maps-data/data/tiger-line.html>) from the US Census Bureau.  
 
@@ -26,7 +26,6 @@ __Basic usage:__
 
 ```r
 library(tigris)
-library(sp)
 
 # Basic plot of US urbanized areas
 
@@ -52,7 +51,27 @@ ua %>% leaflet() %>% addTiles() %>% addPolygons(popup = ~NAME10)
 
 For more information on how to use this package, please view the RPubs at <http://rpubs.com/walkerke/tigris01>. 
 
-__In Version 0.2__
+__In Version 0.3__: 
+
+* tigris now defaults to the 2015 TIGER/Line shapefiles and the 2015 cartographic boundary shapefiles (with `cb = TRUE` for selected functions).  
+
+* The `refresh` option can now be used to fix corrupted downloads.  If you receive the error: 
+
+```
+Error in ogrInfo(dsn = dsn, layer = layer, encoding = encoding, use_iconv = use_iconv,  : 
+  Cannot open layer 
+```
+
+call the function again, but with the argument `refresh = TRUE`, which will re-download the shapefile.  
+
+
+__In Version 0.2.2__:
+
+* New function, `voting_districts()`, enables users to retrieve voting district (electoral precinct) shapefiles from the 2012 TIGER/Line dataset.
+
+* tigris now imports and re-exports the `plot()` function from the sp package so that Census shapefiles can be plotted without having to load sp explicitly.
+
+__In Version 0.2__:
 
 * Enhancements to the `geo_join` function to merge tabular data frames to spatial data frames.  An optional parameter, `by`, allows you to supply one column name to merge on if the column names are the same.  For example: 
 ```r
