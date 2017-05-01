@@ -4,9 +4,9 @@
 
 Download and use Census TIGER/Line shapefiles in R
 
-CRAN version: __0.3__ (updated 16 May 2016)
+CRAN version: __0.3.3__ (updated 5 July 2016)
 
-Dev version: __0.3.3.9000__ (updated 5 July 2016)
+Dev version: __0.5__ (updated 1 May 2017)
 
 `tigris` is an R package that allows users to directly download and use TIGER/Line shapefiles (<https://www.census.gov/geo/maps-data/data/tiger-line.html>) from the US Census Bureau.  
 
@@ -22,13 +22,11 @@ Or, get the development version from GitHub:
 devtools::install_github('walkerke/tigris')
 ```
 
-__In Version 0.3.3__: 
+__In Version 0.5__: 
 
-* tigris now accommodates county name changes in the 2015 TIGER/Line dataset.  Shannon County, SD (FIPS code 113) is now Oglala Lakota County (FIPS code 102), and Wade Hampton Census Area, AK (FIPS code 270) is now Kusilvak Census Area (FIPS code 158).
+* tigris now supports simple features!  To load your data as an object of class `sf`, specify `class = "sf"` in the function call, or set this globally with `options(tigris_class = "sf")`.  
 
-* We fixed a bug that would counties not to load in non-interactive mode.
-
-For more information on how to use this package, please view the RPubs at <http://rpubs.com/walkerke/tigris01>. 
+* Historic boundaries are available for states, counties, Census tracts, and block groups; 1990 (`cb = TRUE` only), 2000, and 2010 boundaries can be obtained with the `year` parameter in an associated function call.  
 
 __Basic usage:__
 
@@ -58,17 +56,17 @@ ua %>% leaflet() %>% addTiles() %>% addPolygons(popup = ~NAME10)
 
 __Available datasets:__
 
-Please note: cartographic boundary files in __tigris__ are only available going back to 2013.  
+Please note: cartographic boundary files in __tigris__ are not available for 2011 and 2012.  
 
 | Function | Datasets available | Years available |
 |------------------------------------------|------------------------------------------------|------------------------------|
 | nation | cartographic (1:5m; 1:20m) | 2013, 2014, 2015 |
 | divisions | cartographic (1:500k; 1:5m; 1:20m) | 2013, 2014, 2015 |
 | regions | cartographic (1:500k; 1:5m; 1:20m) | 2013, 2014, 2015 |
-| states | TIGER/Line; cartographic (1:500k; 1:5m; 1:20m) | 2011, 2012, 2013, 2014, 2015 |
-| counties | TIGER/Line; cartographic (1:500k; 1:5m; 1:20m) | 2011, 2012, 2013, 2014, 2015 |
-| tracts | TIGER/Line; cartographic (1:500k) | 2011, 2012, 2013, 2014, 2015 |
-| block_groups | TIGER/Line; cartographic (1:500k) | 2011, 2012, 2013, 2014, 2015 |
+| states | TIGER/Line; cartographic (1:500k; 1:5m; 1:20m) | 1990, 2000, 2010, 2011, 2012, 2013, 2014, 2015 |
+| counties | TIGER/Line; cartographic (1:500k; 1:5m; 1:20m) | 1990, 2000, 2010, 2011, 2012, 2013, 2014, 2015 |
+| tracts | TIGER/Line; cartographic (1:500k) | 1990, 2000, 2010, 2011, 2012, 2013, 2014, 2015 |
+| block_groups | TIGER/Line; cartographic (1:500k) | 1990, 2000, 2010, 2011, 2012, 2013, 2014, 2015 |
 | blocks | TIGER/Line | 2011, 2012, 2013, 2014, 2015 |
 | places | TIGER/Line; cartographic (1:500k) | 2011, 2012, 2013, 2014, 2015 |
 | pumas | TIGER/Line; cartographic (1:500k) | 2012, 2013, 2014, 2015 |

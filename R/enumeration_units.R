@@ -34,12 +34,10 @@
 #'        counties file.  Defaults to FALSE (the most detailed TIGER file).
 #' @param resolution The resolution of the cartographic boundary file (if cb == TRUE).
 #'        Defaults to '500k'; options include '5m' (1:5 million) and '20m' (1:20 million).
-#' @param detailed (deprecated) Setting detailed to FALSE returns a 1:500k cartographic boundary file.
-#'        This parameter will be removed in a future release.
+#' @param year the data year; defaults to 2015
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
-#'        (defaults to \code{FALSE}), and \code{year}, the year for which you'd like to download data
-#'        (defaults to 2015).
+#'        (defaults to \code{FALSE}).
 #' @export
 #' @family general area functions
 #' @seealso \url{https://www.census.gov/geo/reference/gtc/gtc_cou.html}
@@ -59,24 +57,68 @@
 #' gg <- gg + theme_map()
 #' gg
 #' }
-counties <- function(state = NULL, cb = FALSE, resolution = '500k', detailed = TRUE, ...) {
+counties <- function(state = NULL, cb = FALSE, resolution = '500k', year = NULL, ...) {
 
   if (!(resolution %in% c('500k', '5m', '20m'))) {
     stop("Invalid value for resolution. Valid values are '500k', '5m', and '20m'.", call. = FALSE)
   }
 
-  if (detailed == FALSE) {
-    cb = TRUE
-    message("The `detailed` parameter is deprecated.  Use `cb` instead.")
-    }
+  if (is.null(year)) {
+
+    year <- getOption("tigris_year", 2015)
+
+  }
+
+    cyear <- as.character(year)
 
   if (cb == TRUE) {
-    url <- paste0("http://www2.census.gov/geo/tiger/GENZ2015/shp/cb_2015_us_county_",
-                  resolution,
-                  ".zip")
+
+    if (year %in% c(1990, 2000)) {
+
+      suf <- substr(as.character(year), 3, 4)
+
+      url <- sprintf("https://www2.census.gov/geo/tiger/PREVGENZ/co/co%sshp/co99_d%s_shp.zip",
+                     suf, suf)
+
+    } else if (year == 2010) {
+
+      url <- sprintf("https://www2.census.gov/geo/tiger/GENZ2010/gz_2010_us_050_00_%s.zip",
+                     resolution)
+
+    } else {
+
+      if (year > 2013) {
+
+        url <- sprintf("http://www2.census.gov/geo/tiger/GENZ%s/shp/cb_%s_us_county_%s.zip",
+                       cyear, cyear, resolution)
+
+      } else {
+
+        url <- sprintf("http://www2.census.gov/geo/tiger/GENZ%s/cb_%s_us_county_%s.zip",
+                       cyear, cyear, resolution)
+
+      }
+
+
+    }
+
   } else {
 
-    url <- "http://www2.census.gov/geo/tiger/TIGER2015/COUNTY/tl_2015_us_county.zip"
+    if (year == 1990) stop("Please specify `cb = TRUE` to get 1990 data.", call. = FALSE)
+
+    if (year %in% c(2000, 2010)) {
+
+      suf <- substr(cyear, 3, 4)
+
+      url <- sprintf("https://www2.census.gov/geo/tiger/TIGER2010/COUNTY/%s/tl_2010_us_county%s.zip",
+                     cyear, suf)
+
+    } else {
+
+      url <- sprintf("http://www2.census.gov/geo/tiger/TIGER%s/COUNTY/tl_%s_us_county.zip",
+                     cyear, cyear)
+
+    }
 
   }
 
@@ -132,12 +174,10 @@ counties <- function(state = NULL, cb = FALSE, resolution = '500k', detailed = T
 #'        Can also be a county name or vector of names.
 #' @param cb If cb is set to TRUE, download a generalized (1:500k)
 #'        tracts file.  Defaults to FALSE (the most detailed TIGER/Line file)
-#' @param detailed (deprecated) Setting detailed to FALSE returns a 1:500k cartographic boundary file.
-#'        This parameter will be removed in a future release.
+#' @param year defaults to 2015; fill in more here
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
-#'        (defaults to \code{FALSE}), and \code{year}, the year for which you'd like to download data
-#'        (defaults to 2015).
+#'        (defaults to \code{FALSE}).
 #' @family general area functions
 #' @seealso \url{https://www.census.gov/geo/reference/gtc/gtc_ct.html}
 #' @export
@@ -151,28 +191,69 @@ counties <- function(state = NULL, cb = FALSE, resolution = '500k', detailed = T
 #'   addTiles() %>%
 #'   addPolygons(popup = ~NAME)
 #' }
-tracts <- function(state, county = NULL, cb = FALSE, detailed = TRUE, ...) {
+tracts <- function(state, county = NULL, cb = FALSE, year = NULL, ...) {
+
+  if (is.null(year)) {
+
+    year <- getOption("tigris_year", 2015)
+
+  }
 
   state <- validate_state(state)
 
   if (is.null(state)) stop("Invalid state", call.=FALSE)
 
-  if (detailed == FALSE) {
-    cb = TRUE
-    message("The `detailed` parameter is deprecated.  Use `cb` instead.")
-  }
-
   if (cb == TRUE) {
 
-    url <- paste0("http://www2.census.gov/geo/tiger/GENZ2015/shp/cb_2015_",
-                  state,
-                  "_tract_500k.zip")
+    if (year %in% c(1990, 2000)) {
+
+      suf <- substr(as.character(year), 3, 4)
+
+      url <- sprintf("https://www2.census.gov/geo/tiger/PREVGENZ/tr/tr%sshp/tr%s_d%s_shp.zip",
+                     suf, state, suf)
+
+    } else if (year == 2010) {
+
+      url <- sprintf("https://www2.census.gov/geo/tiger/GENZ2010/gz_2010_%s_140_00_500k.zip",
+                     state)
+
+    } else {
+
+      if (year > 2013) {
+
+        url <- sprintf("http://www2.census.gov/geo/tiger/GENZ%s/shp/cb_%s_%s_tract_500k.zip",
+                       as.character(year), as.character(year), state)
+
+      } else {
+
+        url <- sprintf("http://www2.census.gov/geo/tiger/GENZ%s/cb_%s_%s_tract_500k.zip",
+                       as.character(year), as.character(year), state)
+
+      }
+
+
+    }
 
   } else {
 
-    url <- paste0("http://www2.census.gov/geo/tiger/TIGER2015/TRACT/tl_2015_",
-                  state,
-                  "_tract.zip")
+    if (year == 1990) stop("Please specify `cb = TRUE` to get 1990 data.", call. = FALSE)
+
+    if (year %in% c(2000, 2010)) {
+
+      cyear <- as.character(year)
+
+      suf <- substr(cyear, 3, 4)
+
+      url <- sprintf("https://www2.census.gov/geo/tiger/TIGER2010/TRACT/%s/tl_2010_%s_tract%s.zip",
+                     cyear, state, suf)
+
+    } else {
+
+      url <- sprintf("http://www2.census.gov/geo/tiger/TIGER%s/TRACT/tl_%s_%s_tract.zip",
+                     as.character(year), as.character(year), state)
+
+    }
+
   }
 
   trcts <- load_tiger(url, tigris_type="tract", ...)
@@ -211,10 +292,10 @@ tracts <- function(state, county = NULL, cb = FALSE, detailed = TRUE, ...) {
 #' @param type Specify whether you want to return a unified school district (the default, \code{'unified'}),
 #'        an elementary school district (\code{'elementary'}), or a secondary school district (\code{'secondary'}).
 #'        Please note: elementary and secondary school districts do not exist in all states
+#' @param year the data year; defaults to 2015
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
-#'        (defaults to \code{FALSE}), and \code{year}, the year for which you'd like to download data
-#'        (defaults to 2015).
+#'        (defaults to \code{FALSE}).
 #' @family general area functions
 #' @seealso \url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2015/TGRSHP2015_TechDoc.pdf}
 #' @export
@@ -230,7 +311,24 @@ tracts <- function(state, county = NULL, cb = FALSE, detailed = TRUE, ...) {
 #'               color = "black",
 #'               weight = 0.5)
 #' }
-school_districts <- function(state, type = 'unified', ...) {
+school_districts <- function(state, type = 'unified', year = NULL, ...) {
+
+  if (is.null(year)) {
+
+    year = getOption("tigris_year", 2015)
+
+  }
+
+  if (year < 2011) {
+
+    fname <- as.character(match.call())[[1]]
+
+    msg <- sprintf("%s is not currently available for years prior to 2011.  To request this feature,
+                   file an issue at https://github.com/walkerke/tigris.", fname)
+
+    stop(msg, call. = FALSE)
+
+  }
 
   state <- validate_state(state)
 
@@ -246,13 +344,10 @@ school_districts <- function(state, type = 'unified', ...) {
     stop("Invalid school district type.  Valid types are 'unified', 'elementary', and 'secondary'.", call. = FALSE)
   }
 
-  url <- paste0("http://www2.census.gov/geo/tiger/TIGER2015/",
-                toupper(type),
-                "/tl_2015_",
-                state,
-                "_",
-                type,
-                ".zip")
+  cyear <- as.character(year)
+
+  url <- sprintf("http://www2.census.gov/geo/tiger/TIGER%s/%s/tl_%s_%s_%s.zip",
+                 cyear, toupper(type), cyear, state, type)
 
   return(load_tiger(url, tigris_type = type, ...))
 
@@ -289,12 +384,10 @@ school_districts <- function(state, type = 'unified', ...) {
 #'        Can also be a county name or vector of names.
 #' @param cb If cb is set to TRUE, download a generalized (1:500k)
 #'        file.  Defaults to FALSE (the most detailed TIGER/Line file)
-#' @param detailed (deprecated) Setting detailed to FALSE returns a 1:500k cartographic boundary file.
-#'        This parameter will be removed in a future release.
+#' @param year the data download year (defaults to 2015)
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
-#'        (defaults to \code{FALSE}), and \code{year}, the year for which you'd like to download data
-#'        (defaults to 2015).
+#'        (defaults to \code{FALSE}).
 #' @family general area functions
 #' @seealso \url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2015/TGRSHP2015_TechDoc.pdf}
 #' @export
@@ -305,29 +398,71 @@ school_districts <- function(state, type = 'unified', ...) {
 #'
 #' plot(benton_bgs)
 #' }
-block_groups <- function(state, county = NULL, cb = FALSE, detailed = TRUE, ...) {
+block_groups <- function(state, county = NULL, cb = FALSE, year = NULL, ...) {
+
+  if (is.null(year)) {
+
+    year = getOption("tigris_year", 2015)
+
+  }
+
+    cyear <- as.character(year)
 
   state <- validate_state(state)
 
   if (is.null(state)) stop("Invalid state", call.=FALSE)
 
-  if (detailed == FALSE) {
-    cb <- TRUE
-    message("The `detailed` parameter is deprecated.  Use `cb` instead.")
-  }
-
   if (cb == TRUE) {
 
-    url <- paste0("http://www2.census.gov/geo/tiger/GENZ2015/shp/cb_2015_",
-                  state,
-                  "_bg_500k.zip")
+    if (year %in% c(1990, 2000)) {
+
+      suf <- substr(as.character(year), 3, 4)
+
+      url <- sprintf("https://www2.census.gov/geo/tiger/PREVGENZ/bg/bg%sshp/bg%s_d%s_shp.zip",
+                     suf, state, suf)
+
+    } else if (year == 2010) {
+
+      url <- sprintf("https://www2.census.gov/geo/tiger/GENZ2010/gz_2010_%s_150_00_500k.zip",
+                     state)
+
+    } else {
+
+      if (year > 2013) {
+
+        url <- sprintf("http://www2.census.gov/geo/tiger/GENZ%s/shp/cb_%s_%s_bg_500k.zip",
+                       cyear, cyear, state)
+
+      } else {
+
+        url <- sprintf("http://www2.census.gov/geo/tiger/GENZ%s/cb_%s_%s_bg_500k.zip",
+                       cyear, cyear, state)
+
+      }
+
+
+    }
 
   } else {
 
-    url <- paste0("http://www2.census.gov/geo/tiger/TIGER2015/BG/tl_2015_",
-                  state,
-                  "_bg.zip")
+    if (year == 1990) stop("Please specify `cb = TRUE` to get 1990 data.", call. = FALSE)
+
+    if (year %in% c(2000, 2010)) {
+
+      suf <- substr(cyear, 3, 4)
+
+      url <- sprintf("https://www2.census.gov/geo/tiger/TIGER2010/BG/%s/tl_2010_%s_bg%s.zip",
+                     cyear, state, suf)
+
+    } else {
+
+      url <- sprintf("http://www2.census.gov/geo/tiger/TIGER%s/BG/tl_%s_%s_bg.zip",
+                     cyear, cyear, state)
+
+    }
+
   }
+
 
   bgs <- load_tiger(url, tigris_type="block_group", ...)
 
@@ -362,12 +497,10 @@ block_groups <- function(state, county = NULL, cb = FALSE, detailed = TRUE, ...)
 #'        ZCTAs you want to return.  For example, supplying the argument
 #'        \code{starts_with = c("75", "76")} will return only those ZCTAs that begin
 #'        with 75 or 76.  Defaults to NULL, which will return all ZCTAs in the US.
-#' @param detailed (deprecated) Setting detailed to FALSE returns a 1:500k cartographic boundary file.
-#'        This parameter will be removed in a future release.
+#' @param year the data year (defaults to 2015).
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
-#'        (defaults to \code{FALSE}), and \code{year}, the year for which you'd like to download data
-#'        (defaults to 2015).
+#'        (defaults to \code{FALSE}).
 #' @family general area functions
 #' @seealso \url{https://www.census.gov/geo/reference/zctas.html}
 #' @export
@@ -389,17 +522,36 @@ block_groups <- function(state, county = NULL, cb = FALSE, detailed = TRUE, ...)
 #' plot(mem_zcta)
 #'
 #' }
-zctas <- function(cb = FALSE, starts_with = NULL, detailed = TRUE, ...) {
+zctas <- function(cb = FALSE, starts_with = NULL, year = NULL, ...) {
 
-  if (detailed == FALSE) {
-    cb <- TRUE
-    message("The `detailed` parameter is deprecated.  Use `cb` instead.")
+  if (is.null(year)) {
+
+    year = getOption("tigris_year", 2015)
+
   }
 
+  if (year < 2011) {
+
+    fname <- as.character(match.call())[[1]]
+
+    msg <- sprintf("%s is not currently available for years prior to 2011.  To request this feature,
+                   file an issue at https://github.com/walkerke/tigris.", fname)
+
+    stop(msg, call. = FALSE)
+
+  }
+
+  cyear <- as.character(year)
+
   if (cb == TRUE) {
-    url <- "http://www2.census.gov/geo/tiger/GENZ2015/shp/cb_2015_us_zcta510_500k.zip"
+    url <- sprintf("http://www2.census.gov/geo/tiger/GENZ%s/shp/cb_%s_us_zcta510_500k.zip",
+                   cyear, cyear)
+
+    if (year == 2013) url <- gsub("shp/", "", url)
+
   } else {
-    url <- "http://www2.census.gov/geo/tiger/TIGER2015/ZCTA5/tl_2015_us_zcta510.zip"
+    url <- sprintf("http://www2.census.gov/geo/tiger/TIGER%s/ZCTA5/tl_%s_us_zcta510.zip",
+                   cyear, cyear)
   }
 
   zcta <- load_tiger(url, tigris_type="zcta", ...)
@@ -465,16 +617,37 @@ zctas <- function(cb = FALSE, starts_with = NULL, detailed = TRUE, ...) {
 #'   addPolygons()
 #'
 #' }
-blocks <- function(state, county = NULL, year = 2015, ...) {
+blocks <- function(state, county = NULL, year = NULL, ...) {
+
+  if (is.null(year)) {
+
+    year <- getOption("tigris_year", 2015)
+
+  }
+
+  if (year < 2010) {
+
+    fname <- as.character(match.call())[[1]]
+
+    msg <- sprintf("%s is not currently available for years prior to 2010.  To request this feature,
+                   file an issue at https://github.com/walkerke/tigris.", fname)
+
+    stop(msg, call. = FALSE)
+
+  }
 
   state <- validate_state(state)
 
   if (is.null(state)) stop("Invalid state", call.=FALSE)
 
-  if (year >= 2011) {
-    url <- paste0("http://www2.census.gov/geo/tiger/TIGER2015/TABBLOCK/tl_2015_",
-                  state,
-                  "_tabblock10.zip")
+  cyear <- as.character(year)
+
+  if (year >= 2014) {
+    url <- sprintf("http://www2.census.gov/geo/tiger/TIGER%s/TABBLOCK/tl_%s_%s_tabblock10.zip",
+                   cyear, cyear, state)
+  } else if (year %in% 2011:2013) {
+    url <- sprintf("http://www2.census.gov/geo/tiger/TIGER%s/TABBLOCK/tl_%s_%s_tabblock.zip",
+                   cyear, cyear, state)
   } else if (year == 2010) {
     url <- paste0("http://www2.census.gov/geo/tiger/TIGER2010/TABBLOCK/2010/tl_2010_",
                   state,
@@ -483,7 +656,7 @@ blocks <- function(state, county = NULL, year = 2015, ...) {
     stop()
   }
 
-  blks <- load_tiger(url, tigris_type="block", year = year, ...)
+  blks <- load_tiger(url, tigris_type="block", ...)
 
   if (!is.null(county)) {
 
@@ -501,7 +674,8 @@ blocks <- function(state, county = NULL, year = 2015, ...) {
 
 #' Download a county subdivision shapefile into R
 #'
-#' From the US Census Bureau (see link for source, and more information): "County subdivisions #' are the primary divisions of counties and their equivalent entities for the reporting of
+#' From the US Census Bureau (see link for source, and more information): "County subdivisions
+#' are the primary divisions of counties and their equivalent entities for the reporting of
 #' decennial census data. They include census county divisions, census subareas, minor civil
 #' divisions, and unorganized territories. They may represent legal or statistical entities.
 #' The 2015 TIGER/Line Shapefiles contain a 5-character FIPS code field for county subdivisions
@@ -514,12 +688,10 @@ blocks <- function(state, county = NULL, year = 2015, ...) {
 #'        Can also be a county name or vector of names.
 #' @param cb If cb is set to TRUE, download a generalized (1:500k)
 #'        file.  Defaults to FALSE (the most detailed TIGER/Line file)
-#' @param detailed (deprecated) Setting detailed to FALSE returns a 1:500k cartographic boundary file.
-#'        This parameter will be removed in a future release.
+#' @param year the data year (defaults to 2015).
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not
 #' exported. Options include \code{refresh}, which specifies whether or not to re-download
-#' shapefiles (defaults to \code{FALSE}), and \code{year}, the year for which you'd like to
-#'  download data (defaults to 2015).
+#' shapefiles (defaults to \code{FALSE}).
 #' @family general area functions
 #' @seealso \url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2015/TGRSHP2015_TechDoc.pdf}
 #' @export
@@ -532,28 +704,43 @@ blocks <- function(state, county = NULL, year = 2015, ...) {
 #' plot(or)
 #'
 #' }
-county_subdivisions <- function(state, county = NULL, cb = FALSE, detailed = TRUE, ...) {
+county_subdivisions <- function(state, county = NULL, cb = FALSE, year = NULL, ...) {
+
+  if (is.null(year)) {
+
+    year <- getOption("tigris_year", 2015)
+
+  }
+
+  if (year < 2011) {
+
+    fname <- as.character(match.call())[[1]]
+
+    msg <- sprintf("%s is not currently available for years prior to 2011.  To request this feature,
+                   file an issue at https://github.com/walkerke/tigris.", fname)
+
+    stop(msg, call. = FALSE)
+
+  }
 
   state <- validate_state(state)
 
   if (is.null(state)) stop("Invalid state", call.=FALSE)
 
-  if (detailed == FALSE) {
-    cb <- TRUE
-    message("The `detailed` parameter is deprecated.  Use `cb` instead.")
-  }
+  cyear <- as.character(year)
 
   if (cb == TRUE) {
 
-    url <- paste0("http://www2.census.gov/geo/tiger/GENZ2015/shp/cb_2015_",
-                  state,
-                  "_cousub_500k.zip")
+    url <- sprintf("http://www2.census.gov/geo/tiger/GENZ%s/shp/cb_%s_%s_cousub_500k.zip",
+                   cyear, cyear, state)
+
+    if (year == 2013) url <- gsub("shp/", "", url)
+
 
   } else {
 
-    url <- paste0("http://www2.census.gov/geo/tiger/TIGER2015/COUSUB/tl_2015_",
-                  state,
-                  "_cousub.zip")
+    url <- sprintf("http://www2.census.gov/geo/tiger/TIGER%s/COUSUB/tl_%s_%s_cousub.zip",
+                   cyear, cyear, state)
   }
 
   cs <- load_tiger(url, tigris_type="county_subdivision", ...)

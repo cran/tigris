@@ -10,19 +10,7 @@
 load_tiger <- function(url,
                        refresh=getOption("tigris_refresh", FALSE),
                        tigris_type=NULL,
-                       year = getOption("tigris_year", 2015)) {
-
-  if (year != 2015) {
-
-    url <- gsub("2015", as.character(year), url)
-
-    if (year < 2014) {
-
-      url <- gsub("shp/", "", url) # A little dirty but should work for now for CB files prior to 2014
-
-    }
-
-  }
+                       class = getOption("tigris_class", "sp")) {
 
   use_cache <- getOption("tigris_use_cache", TRUE)
   tiger_file <- basename(url)
@@ -47,14 +35,83 @@ load_tiger <- function(url,
       }
 
       shape <- gsub(".zip", "", tiger_file)
+      shape <- gsub("_shp", "", shape) # for historic tracts
 
       if (refresh | !file.exists(file.path(user_cache_dir("tigris"),
                                  sprintf("%s.shp", shape)))) {
-        unzip(file_loc, exdir = cache_dir, overwrite=TRUE)
+
+        unzip_tiger <- function() {
+          unzip(file_loc, exdir = cache_dir, overwrite=TRUE)
+        }
+
+        # Logic for handling download errors and re-downloading
+        t <- tryCatch(unzip_tiger(), warning = function(w) w)
+
+        if ("warning" %in% class(t)) {
+
+          i <- 1
+
+          while (i < 4) {
+
+            message(sprintf("Previous download failed.  Re-download attempt %s of 3...",
+                            as.character(i)))
+
+            try(GET(url,
+                    write_disk(file_loc, overwrite=TRUE),
+                    progress(type="down")), silent=TRUE)
+
+            shape <- gsub(".zip", "", tiger_file)
+            shape <- gsub("_shp", "", shape)
+
+            t <- tryCatch(unzip_tiger(), warning = function(w) w)
+
+            if ("warning" %in% class(t)) {
+              i <- i + 1
+            } else {
+              break
+            }
+
+          }
+
+          if (i == 4) {
+
+            stop("Download failed; check your internet connection or the status of the Census Bureau website
+                 at http://www2.census.gov/geo/tiger/.", call. = FALSE)
+          }
+
+        } else {
+
+          unzip_tiger()
+
+        }
+
       }
 
-      obj <- readOGR(dsn = cache_dir, layer = shape, encoding = "UTF-8",
-                     verbose = FALSE, stringsAsFactors = FALSE)
+      if (class == "sp") {
+
+        obj <- readOGR(dsn = cache_dir, layer = shape, encoding = "UTF-8",
+                       verbose = FALSE, stringsAsFactors = FALSE)
+
+        if (is.na(proj4string(obj))) {
+
+          proj4string(obj) <- CRS("+proj=longlat +datum=NAD83 +no_defs +ellps=GRS80 +towgs84=0,0,0")
+
+        }
+
+      } else if (class == "sf") {
+
+        obj <- st_read(dsn = cache_dir, layer = shape,
+                       quiet = TRUE, stringsAsFactors = FALSE)
+
+        if (is.na(st_crs(obj)$proj4string)) {
+
+          st_crs(obj) <- 4269
+
+        }
+
+      }
+
+
 
     }
 
@@ -64,9 +121,32 @@ load_tiger <- function(url,
     download.file(url, tiger_file, mode = 'wb')
     unzip(tiger_file, exdir = tmp)
     shape <- gsub(".zip", "", tiger_file)
+    shape <- gsub("_shp", "", shape) # for historic tracts
 
-    obj <- readOGR(dsn = tmp, layer = shape, encoding = "UTF-8",
-                   verbose = FALSE, stringsAsFactors = FALSE)
+
+    if (class == "sp") {
+
+      obj <- readOGR(dsn = tmp, layer = shape, encoding = "UTF-8",
+                     verbose = FALSE, stringsAsFactors = FALSE)
+
+      if (is.na(proj4string(obj))) {
+
+        proj4string(obj) <- CRS("+proj=longlat +datum=NAD83 +no_defs +ellps=GRS80 +towgs84=0,0,0")
+
+      }
+
+    } else if (class == "sf") {
+
+      obj <- st_read(dsn = tmp, layer = shape,
+                     quiet = TRUE, stringsAsFactors = FALSE)
+
+      if (is.na(st_crs(obj)$proj4string)) {
+
+        st_crs(obj) <- 4269
+
+      }
+
+    }
 
   }
 
@@ -74,6 +154,24 @@ load_tiger <- function(url,
 
   # this will help identify the object "sub type"
   if (!is.null(tigris_type)) attr(obj, "tigris") <- tigris_type
+
+  # Take care of COUNTYFP, STATEFP issues for historic data
+  if ("COUNTYFP00" %in% names(obj)) {
+    obj$COUNTYFP <- obj$COUNTYFP00
+    obj$STATEFP <- obj$STATEFP00
+  }
+  if ("COUNTYFP10" %in% names(obj)) {
+    obj$COUNTYFP <- obj$COUNTYFP10
+    obj$STATEFP <- obj$STATEFP10
+  }
+  if ("COUNTY" %in% names(obj)) {
+    obj$COUNTYFP <- obj$COUNTY
+    obj$STATEFP <- obj$STATE
+  }
+  if ("CO" %in% names(obj)) {
+    obj$COUNTYFP <- obj$CO
+    obj$STATEFP <- obj$ST
+  }
 
   return(obj)
 
@@ -126,25 +224,80 @@ geo_join <- function(spatial_data, data_frame, by_sp, by_df, by = NULL, how = 'l
     by_df <- by
   }
 
-  spatial_data@data <- data.frame(spatial_data@data,
-                                  data_frame[match(spatial_data@data[[by_sp]],
-                                                   data_frame[[by_df]]), ])
+  # For sp objects
+  if (class(spatial_data)[1] %in% c("SpatialGridDataFrame", "SpatialLinesDataFrame",
+                                "SpatialPixelsDataFrame", "SpatialPointsDataFrame",
+                                "SpatialPolygonsDataFrame")) {
 
-  if (how == 'inner') {
+    spatial_data@data <- data.frame(spatial_data@data,
+                                    data_frame[match(spatial_data@data[[by_sp]],
+                                                     data_frame[[by_df]]), ])
 
-    matches <- match(spatial_data@data[[by_sp]], data_frame[[by_df]])
+    if (how == 'inner') {
 
-    spatial_data <- spatial_data[!is.na(matches), ]
+      matches <- match(spatial_data@data[[by_sp]], data_frame[[by_df]])
 
-    return(spatial_data)
+      spatial_data <- spatial_data[!is.na(matches), ]
 
-  } else if (how == 'left') {
+      return(spatial_data)
 
-    return(spatial_data)
+    } else if (how == 'left') {
 
-  } else {
+      return(spatial_data)
 
-    stop("The available options for `how` are 'left' and 'inner'.", call. = FALSE)
+    } else {
+
+      stop("The available options for `how` are 'left' and 'inner'.", call. = FALSE)
+
+    }
+
+
+  # For sf objects
+  } else if ("sf" %in% class(spatial_data)) {
+
+    join_vars <- c(by_df)
+
+    names(join_vars) <- by_sp
+
+    if (how == "inner") {
+
+      joined <- spatial_data %>%
+        inner_join(data_frame, by = join_vars) %>%
+        st_as_sf()
+
+      attr(joined, "tigris") <- tigris_type(spatial_data)
+
+      return(joined)
+
+    } else if (how == "left") {
+
+      # Account for potential duplicate rows in data frame
+      df_unique <- data_frame %>%
+        group_by_(by_df) %>%
+        mutate(rank = row_number()) %>%
+        filter(rank == 1)
+
+      joined <- spatial_data %>%
+        left_join(df_unique, by = join_vars) %>%
+        st_as_sf()
+
+      if (!is.na(st_crs(spatial_data)$epsg)) {
+        crs <- st_crs(spatial_data)$epsg
+      } else {
+        crs <- st_crs(spatial_data)$proj4string
+      }
+
+      st_crs(joined) <- crs # re-assign the CRS
+
+      attr(joined, "tigris") <- tigris_type(spatial_data)
+
+      return(joined)
+
+    } else {
+
+      stop("The available options for `how` are 'left' and 'inner'.", call. = FALSE)
+
+    }
 
   }
 
@@ -252,6 +405,8 @@ list_counties <- function(state) {
 
 #' Row-bind \code{tigris} Spatial objects
 #'
+#' If multiple school district types are rbound, coerces to "sdall" and does it
+#'
 #' @param ... individual (optionally names) \code{tigris} Spatial objects or a list of them
 #' @return one combined Spatial object
 #' @export
@@ -278,48 +433,125 @@ rbind_tigris <- function(...) {
 
   if ((length(elements) == 1) &
       inherits(elements, "list")) {
-    elements <- unlist(elements)
+    elements <- unlist(elements, recursive = FALSE) # Necessary given structure of sf objects
   }
 
   obj_classes <- unique(sapply(elements, class))
   obj_attrs <- sapply(elements, attr, "tigris")
   obj_attrs_u <- unique(obj_attrs)
 
+  if (any(c("SpatialGridDataFrame", "SpatialLinesDataFrame",
+        "SpatialPixelsDataFrame", "SpatialPointsDataFrame",
+        "SpatialPolygonsDataFrame") %in% obj_classes) &
+      "sf" %in% obj_classes) {
+
+    stop("Cannot combine sp and sf objects", call. = FALSE)
+
+  }
+
+  #handling for attempts to rbind disparate school districts
+
+  if(all(obj_attrs %in% c("unsd", "elsd", "scsd"))){ # 3 school district types
+
+    warning("Multiple school district tigris types. Coercing to \'sdall\'.", call. = FALSE)
+
+    elements <- lapply(seq_along(elements), function(x){
+                  names(elements[[x]])[2] <- "SDLEA" # Used in some spots elsewhere in TIGER
+                  attr(elements[[x]], "tigris") <- "sdall" # New type
+                  elements[[x]]
+    })
+
+    obj_attrs <- sapply(elements, attr, "tigris")
+    obj_attrs_u <- unique(obj_attrs)
+
+  }
+
   # all same type
   # all valid Spatial* type
   # none are from outside tigris
   # all same tigris "type"
 
-  if (length(obj_classes) == 1 &
-      obj_classes %in% c("SpatialGridDataFrame", "SpatialLinesDataFrame",
+  if (obj_classes[1] %in% c("SpatialGridDataFrame", "SpatialLinesDataFrame",
                          "SpatialPixelsDataFrame", "SpatialPointsDataFrame",
-                         "SpatialPolygonsDataFrame") &
-      !any(sapply(obj_attrs, is.null)) &
-      length(obj_attrs_u)==1) {
+                         "SpatialPolygonsDataFrame")) {
 
-    el_nams <- names(elements)
+    if (length(obj_classes) == 1 &
+        !any(sapply(obj_attrs, is.null)) &
+        length(obj_attrs_u)==1) {
 
-    if (is.null(el_nams)) {
-      el_nams <- rep(NA, length(elements))
+      el_nams <- names(elements)
+
+      if (is.null(el_nams)) {
+        el_nams <- rep(NA, length(elements))
+      }
+
+      el_nams <- ifelse(el_nams == "", NA, el_nams)
+
+      el_nams <- sapply(el_nams, function(x) {
+        ifelse(is.na(x), gsub("-", "", UUIDgenerate(), fixed=TRUE), x)
+      })
+
+      tmp <- lapply(1:(length(elements)), function(i) {
+        elem <- elements[[i]]
+        spChFIDs(elem, sprintf("%s%s", el_nams[i], rownames(elem@data)))
+      })
+
+      tmp <- Reduce(spRbind, tmp)
+      attr(tmp, "tigris") <- obj_attrs_u
+      return(tmp)
+
+    } else {
+      stop("Objects must all be Spatial*DataFrame objects and all the same type of tigris object.", call.=FALSE)
     }
 
-    el_nams <- ifelse(el_nams == "", NA, el_nams)
+  } else if ("sf" %in% obj_classes) {
 
-    el_nams <- sapply(el_nams, function(x) {
-       ifelse(is.na(x), gsub("-", "", UUIDgenerate(), fixed=TRUE), x)
-    })
+    crs <- unique(sapply(elements, function(x) {
+      return(st_crs(x)$epsg)
+    }))
 
-    tmp <- lapply(1:(length(elements)), function(i) {
-      elem <- elements[[i]]
-      spChFIDs(elem, sprintf("%s%s", el_nams[i], rownames(elem@data)))
-    })
+    if (length(crs) > 1) {
+      stop("All objects must share a single coordinate reference system.")
+    }
 
-    tmp <- Reduce(spRbind, tmp)
-    attr(tmp, "tigris") <- obj_attrs_u
-    return(tmp)
+    if (!any(sapply(obj_attrs, is.null)) &
+        length(obj_attrs_u)==1) {
 
-  } else {
-    stop("Objects must all be Spatial*DataFrame objects and all the same type of tigris object.", call.=FALSE)
+      geometries <- unlist(lapply(elements, function(x) {
+        geoms <- st_geometry_type(x)
+        unique(geoms)
+      }))
+
+      # Cast polygon to multipolygon to allow for rbind-ing
+      # This will need to be checked for linear objects as well
+      if ("POLYGON" %in% geometries & "MULTIPOLYGON" %in% geometries) {
+        elements <- lapply(elements, function(x) {
+          st_cast(x, "MULTIPOLYGON")
+        })
+      }
+
+      if ("LINESTRING" %in% geometries & "MULTILINESTRING" %in% geometries) {
+        elements <- lapply(elements, function(x) {
+          st_cast(x, "MULTILINESTRING")
+        })
+      }
+
+      tmp <- Reduce(rbind, elements) # bind_rows not working atm
+
+      # Re-assign the original CRS if missing
+      if (is.na(st_crs(tmp)$proj4string)) {
+        st_crs(tmp) <- crs
+      }
+
+      attr(tmp, "tigris") <- obj_attrs_u
+      return(tmp)
+
+    } else {
+      stop("Objects must all be the same type of tigris object.", call.=FALSE)
+    }
+
   }
 
 }
+
+
