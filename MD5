@@ -1,8 +1,8 @@
-94af7a22f207f24b47c69df54ae8c5b6 *DESCRIPTION
+b22f7f46713722e3e0d3237148794d53 *DESCRIPTION
 66a20665f7a943650674fb1bc403e1ad *LICENSE
 b8a294d366190f870698b5b5f2ab9b9d *NAMESPACE
-f7166dd4f3dd774df0589cf04f7732b5 *NEWS
-a0861fafd04e13d0317128a84096160d *R/enumeration_units.R
+7049020efdcd448d700d2fea5560905c *NEWS
+237743b715fd7da560a007b8b6d06da4 *R/enumeration_units.R
 08fe71cf2b5b68d17cf9669b57424252 *R/fips_codes.R
 de94f7dd8da5a1e13c9d0f388ddfcb1d *R/helpers.R
 463cb1197ded162ea8e25c117202c7ee *R/landmarks.R
@@ -17,8 +17,8 @@ ae90060b3a617fdf920d89c5971ecb63 *R/tigris-package.R
 ab27a6cb5dba0428c962f175392246af *R/transportation.R
 5e5697d1818a725846039c88f8bd0d7d *R/utils.R
 e48fb6ab48ceedc48402967790440105 *R/water.R
-57a54be1290dbc7087fbbdaddf2b64ee *R/zzz.R
-48e2cc7c25b82ddb9f216cf59afd517b *README.md
+45e1ba88a01af872d5c54b0746c8f2d5 *R/zzz.R
+3b493fff5fd8523e9fe53e89321a8131 *README.md
 9b3a1eb434f0fa7d5957b9307281f0d4 *data/fips_codes.rda
 ed5f11df5ac8b03fa5f34640570aab9e *man/alaska_native_regional_corporations.Rd
 3cfc0ffed7da80679ff0d7c22625f9f9 *man/area_water.Rd
