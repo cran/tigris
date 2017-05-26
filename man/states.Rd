@@ -31,7 +31,7 @@ equivalents of states for the purpose of data presentation.
 library(tigris)
 library(leaflet)
 
-states <- states(detailed=FALSE)
+states <- states(cb = TRUE)
 
 leaflet(states) \%>\%
   addProviderTiles("CartoDB.Positron") \%>\%
@@ -50,4 +50,3 @@ Other general area functions: \code{\link{block_groups}},
   \code{\link{pumas}}, \code{\link{school_districts}},
   \code{\link{tracts}}, \code{\link{zctas}}
 }
-

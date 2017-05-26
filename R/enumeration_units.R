@@ -498,6 +498,7 @@ block_groups <- function(state, county = NULL, cb = FALSE, year = NULL, ...) {
 #'        \code{starts_with = c("75", "76")} will return only those ZCTAs that begin
 #'        with 75 or 76.  Defaults to NULL, which will return all ZCTAs in the US.
 #' @param year the data year (defaults to 2015).
+#' @param state the state for which you are requesting data; only available for 2000 and 2010
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
 #'        (defaults to \code{FALSE}).
@@ -522,7 +523,7 @@ block_groups <- function(state, county = NULL, cb = FALSE, year = NULL, ...) {
 #' plot(mem_zcta)
 #'
 #' }
-zctas <- function(cb = FALSE, starts_with = NULL, year = NULL, ...) {
+zctas <- function(cb = FALSE, starts_with = NULL, year = NULL, state = NULL, ...) {
 
   if (is.null(year)) {
 
@@ -535,6 +536,8 @@ zctas <- function(cb = FALSE, starts_with = NULL, year = NULL, ...) {
          call. = FALSE)
   }
 
+  if (!is.null(state)) state <- validate_state(state)
+
   cache <- getOption("tigris_use_cache")
 
   if (!cache) {
@@ -546,7 +549,12 @@ zctas <- function(cb = FALSE, starts_with = NULL, year = NULL, ...) {
   if (cb == TRUE) {
 
     if (year == 2000) {
-      url <- "https://www2.census.gov/geo/tiger/PREVGENZ/zt/z500shp/zt99_d00_shp.zip"
+      if (is.null(state)) {
+        url <- "https://www2.census.gov/geo/tiger/PREVGENZ/zt/z500shp/zt99_d00_shp.zip"
+      } else {
+        url <- sprintf("https://www2.census.gov/geo/tiger/PREVGENZ/zt/z500shp/zt%s_d00_shp.zip",
+                       state)
+      }
     } else if (year == 2010) {
       url <- "https://www2.census.gov/geo/tiger/GENZ2010/gz_2010_us_860_00_500k.zip"
     } else {
@@ -560,16 +568,19 @@ zctas <- function(cb = FALSE, starts_with = NULL, year = NULL, ...) {
 
     if (year %in% c(2000, 2010)) {
 
-
       suf <- substr(cyear, 3, 4)
 
-      url <- sprintf("https://www2.census.gov/geo/tiger/TIGER2010/ZCTA5/%s/tl_2010_us_zcta5%s.zip",
-                     cyear, suf)
-
+      if (is.null(state)) {
+        url <- sprintf("https://www2.census.gov/geo/tiger/TIGER2010/ZCTA5/%s/tl_2010_us_zcta5%s.zip",
+                       cyear, suf)
+      } else {
+        url <- sprintf("https://www2.census.gov/geo/tiger/TIGER2010/ZCTA5/%s/tl_2010_%s_zcta5%s.zip",
+                       cyear, state, suf)
+      }
     } else {
       url <- sprintf("http://www2.census.gov/geo/tiger/TIGER%s/ZCTA5/tl_%s_us_zcta510.zip",
                      cyear, cyear)
-      }
+    }
 
   }
 
@@ -646,12 +657,11 @@ blocks <- function(state, county = NULL, year = NULL, ...) {
 
   }
 
-  if (year < 2010) {
+  if (year < 2000) {
 
     fname <- as.character(match.call())[[1]]
 
-    msg <- sprintf("%s is not currently available for years prior to 2010.  To request this feature,
-                   file an issue at https://github.com/walkerke/tigris.", fname)
+    msg <- "Block data are not available for 1990."
 
     stop(msg, call. = FALSE)
 
@@ -669,10 +679,10 @@ blocks <- function(state, county = NULL, year = NULL, ...) {
   } else if (year %in% 2011:2013) {
     url <- sprintf("http://www2.census.gov/geo/tiger/TIGER%s/TABBLOCK/tl_%s_%s_tabblock.zip",
                    cyear, cyear, state)
-  } else if (year == 2010) {
-    url <- paste0("http://www2.census.gov/geo/tiger/TIGER2010/TABBLOCK/2010/tl_2010_",
-                  state,
-                  "_tabblock10.zip")
+  } else if (year %in% c(2000, 2010)) {
+    suf <- substr(cyear, 3, 4)
+    url <- sprintf("http://www2.census.gov/geo/tiger/TIGER2010/TABBLOCK/%s/tl_2010_%s_tabblock%s.zip",
+                   cyear, state, suf)
   } else {
     stop()
   }
@@ -683,8 +693,11 @@ blocks <- function(state, county = NULL, year = NULL, ...) {
 
     county <- sapply(county, function(x) { validate_county(state, x) })
 
-    blks <- blks[blks$COUNTYFP10 %in% county, ]
-
+    if (year > 2000) {
+      blks <- blks[blks$COUNTYFP10 %in% county, ]
+    } else if (year == 2000) {
+      blks <- blks[blks$COUNTYFP00 %in% county, ]
+    }
   }
 
   attr(blks, "tigris") <- "block"
