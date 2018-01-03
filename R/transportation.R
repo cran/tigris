@@ -10,7 +10,7 @@
 #'        (case-insensitive).
 #' @param county The three-digit FIPS code of the county you'd like the roads for.
 #'        Can also be a county name.
-#' @param year the data year (defaults to 2015).
+#' @param year the data year (defaults to 2016).
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
 #'        (defaults to \code{FALSE}).
@@ -48,7 +48,7 @@ roads <- function(state, county, year = NULL, ...) {
 
   if (is.null(year)) {
 
-    year <- getOption("tigris_year", 2015)
+    year <- getOption("tigris_year", 2016)
 
   }
 
@@ -71,7 +71,7 @@ roads <- function(state, county, year = NULL, ...) {
 
   if (is.null(county)) stop("Invalid county", call. = FALSE)
 
-  url <- sprintf("http://www2.census.gov/geo/tiger/TIGER%s/ROADS/tl_%s_%s%s_roads.zip",
+  url <- sprintf("https://www2.census.gov/geo/tiger/TIGER%s/ROADS/tl_%s_%s%s_roads.zip",
                  as.character(year), as.character(year), state, county)
 
   return(load_tiger(url, tigris_type="road", ...))
@@ -86,7 +86,7 @@ roads <- function(state, county, year = NULL, ...) {
 #' presence of interchanges
 #' and are accessible by ramps and may include some toll highways."
 #'
-#' @param year the data year (defaults to 2015).
+#' @param year the data year (defaults to 2016).
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
 #'        (defaults to \code{FALSE}).
@@ -105,7 +105,7 @@ primary_roads <- function(year = NULL, ...) {
 
   if (is.null(year)) {
 
-    year <- getOption("tigris_year", 2015)
+    year <- getOption("tigris_year", 2016)
 
   }
 
@@ -120,7 +120,7 @@ primary_roads <- function(year = NULL, ...) {
 
   }
 
-  url <- sprintf("http://www2.census.gov/geo/tiger/TIGER%s/PRIMARYROADS/tl_%s_us_primaryroads.zip",
+  url <- sprintf("https://www2.census.gov/geo/tiger/TIGER%s/PRIMARYROADS/tl_%s_us_primaryroads.zip",
                  as.character(year), as.character(year))
 
   return(load_tiger(url, tigris_type="primary_roads", ...))
@@ -141,7 +141,7 @@ primary_roads <- function(year = NULL, ...) {
 #' @param state The two-digit FIPS code of the state of the county you'd like
 #'        to download the roads for. Can also be state name or abbreviation
 #'        (case-insensitive).
-#' @param year the data year (defaults to 2015).
+#' @param year the data year (defaults to 2016).
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
 #'        (defaults to \code{FALSE}).
@@ -161,7 +161,7 @@ primary_secondary_roads <- function(state, year = NULL, ...) {
 
   if (is.null(year)) {
 
-    year <- getOption("tigris_year", 2015)
+    year <- getOption("tigris_year", 2016)
 
   }
 
@@ -180,7 +180,7 @@ primary_secondary_roads <- function(state, year = NULL, ...) {
 
   if (is.null(state)) stop("Invalid state", call.=FALSE)
 
-  url <- sprintf("http://www2.census.gov/geo/tiger/TIGER%s/PRISECROADS/tl_%s_%s_prisecroads.zip",
+  url <- sprintf("https://www2.census.gov/geo/tiger/TIGER%s/PRISECROADS/tl_%s_%s_prisecroads.zip",
                 as.character(year), as.character(year), state)
 
   return(load_tiger(url, tigris_type="prim_sec_roads", ...))
@@ -192,7 +192,7 @@ primary_secondary_roads <- function(state, year = NULL, ...) {
 #' National dataset for US railroads, including carlines, streetcars,
 #' monorails, mass transit, cog rail, incline rail, and trams.
 #'
-#' @param year the data year (defaults to 2015).
+#' @param year the data year (defaults to 2016).
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
 #'        (defaults to \code{FALSE}).
@@ -212,7 +212,7 @@ rails <- function(year = NULL, ...) {
 
   if (is.null(year)) {
 
-    year <- getOption("tigris_year", 2015)
+    year <- getOption("tigris_year", 2016)
 
   }
 
@@ -227,7 +227,7 @@ rails <- function(year = NULL, ...) {
 
   }
 
-  url <- sprintf("http://www2.census.gov/geo/tiger/TIGER%s/RAILS/tl_%s_us_rails.zip",
+  url <- sprintf("https://www2.census.gov/geo/tiger/TIGER%s/RAILS/tl_%s_us_rails.zip",
                  as.character(year), as.character(year))
 
   return(load_tiger(url, tigris_type="rails", ...))

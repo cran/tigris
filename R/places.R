@@ -28,7 +28,7 @@
 #' @param cb If cb is set to TRUE, download a generalized (1:500k)
 #'        cartographic boundary file.  Defaults to FALSE (the most detailed
 #'        TIGER/Line file).
-#' @param year the data year (defaults to 2015).
+#' @param year the data year (defaults to 2016).
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
 #'        (defaults to \code{FALSE}).
@@ -37,9 +37,18 @@
 #' @export
 places <- function(state, cb = FALSE, year = NULL, ...) {
 
+  if (length(state) > 1) {
+    p <- lapply(state, function(x) {
+      places(state = x, cb = cb, year = year)
+    }) %>%
+      rbind_tigris()
+
+    return(p)
+  }
+
   if (is.null(year)) {
 
-    year <- getOption("tigris_year", 2015)
+    year <- getOption("tigris_year", 2016)
 
   }
 
@@ -61,10 +70,10 @@ places <- function(state, cb = FALSE, year = NULL, ...) {
   cyear <- as.character(year)
 
   if (cb == TRUE) {
-    url <- sprintf("http://www2.census.gov/geo/tiger/GENZ%s/shp/cb_%s_%s_place_500k.zip",
+    url <- sprintf("https://www2.census.gov/geo/tiger/GENZ%s/shp/cb_%s_%s_place_500k.zip",
                    cyear, cyear, state)
   } else {
-    url <- sprintf("http://www2.census.gov/geo/tiger/TIGER%s/PLACE/tl_%s_%s_place.zip",
+    url <- sprintf("https://www2.census.gov/geo/tiger/TIGER%s/PLACE/tl_%s_%s_place.zip",
                    cyear, cyear, state)
   }
 

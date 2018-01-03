@@ -10,7 +10,7 @@
 #'        states file.  Defaults to FALSE (the most detailed TIGER/Line file)
 #' @param resolution The resolution of the cartographic boundary file (if cb == TRUE).
 #'        Defaults to '500k'; options include '5m' (1:5 million) and '20m' (1:20 million).
-#' @param year the year of the data download (defaults to 2015)
+#' @param year the year of the data download (defaults to 2016)
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
 #'        (defaults to \code{FALSE}).
@@ -38,7 +38,7 @@ states <- function(cb = FALSE, resolution = '500k', year = NULL, ...) {
 
   if (is.null(year)) {
 
-    year = getOption("tigris_year", 2015)
+    year = getOption("tigris_year", 2016)
 
   }
 
@@ -63,12 +63,12 @@ states <- function(cb = FALSE, resolution = '500k', year = NULL, ...) {
 
       if (year > 2013) {
 
-        url <- sprintf("http://www2.census.gov/geo/tiger/GENZ%s/shp/cb_%s_us_state_%s.zip",
+        url <- sprintf("https://www2.census.gov/geo/tiger/GENZ%s/shp/cb_%s_us_state_%s.zip",
                        cyear, cyear, resolution)
 
       } else {
 
-        url <- sprintf("http://www2.census.gov/geo/tiger/GENZ%s/shp/cb_%s_us_state_%s.zip",
+        url <- sprintf("https://www2.census.gov/geo/tiger/GENZ%s/shp/cb_%s_us_state_%s.zip",
                        cyear, cyear, resolution)
       }
 
@@ -87,14 +87,50 @@ states <- function(cb = FALSE, resolution = '500k', year = NULL, ...) {
 
     } else {
 
-      url <- sprintf("http://www2.census.gov/geo/tiger/TIGER%s/STATE/tl_%s_us_state.zip",
+      url <- sprintf("https://www2.census.gov/geo/tiger/TIGER%s/STATE/tl_%s_us_state.zip",
                      cyear, cyear)
 
     }
 
   }
 
-  return(load_tiger(url, tigris_type="state", ...))
+  st <- load_tiger(url, tigris_type="state", ...)
+
+  # Dissolve polygons for 1990 and 2000 CB
+  if (cb && year %in% c(1990, 2000)) {
+    sclass <- class(st)
+    if (!any(sclass == "sf")) {
+      st <- st_as_sf(st)
+    }
+    if (year == 1990) {
+      st <- st %>%
+        group_by(.data$ST) %>%
+        summarize(AREA = sum(.data$AREA),
+                  PERIMETER = sum(.data$PERIMETER),
+                  ST99_D90_ = first(.data$ST99_D90_),
+                  ST99_D90_I = first(.data$ST99_D90_I),
+                  NAME = first(.data$NAME)) %>%
+        st_cast("MULTIPOLYGON")
+    } else if (year == 2000) {
+      st <- st %>%
+        group_by(.data$STATE) %>%
+        summarize(AREA = sum(.data$AREA),
+                  PERIMETER = sum(.data$PERIMETER),
+                  ST99_D00_ = first(.data$ST99_D00_),
+                  ST99_D00_I = first(.data$ST99_D00_I),
+                  NAME = first(.data$NAME),
+                  LSAD = first(.data$LSAD),
+                  REGION = first(.data$REGION),
+                  DIVISION = first(.data$DIVISION),
+                  LSAD_TRANS = first(.data$LSAD_TRANS)) %>%
+        st_cast("MULTIPOLYGON")
+    }
+    if (any(sclass == "SpatialPolygonsDataFrame")) {
+      st <- as_Spatial(st)
+    }
+  }
+
+  return(st)
 
 }
 #' Filter a \code{states} Spatial object for only those states matching the

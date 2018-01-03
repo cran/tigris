@@ -11,7 +11,7 @@ landmarks(state, type = "point", year = NULL, ...)
 
 \item{type}{Whether you would like to download point landmarks (\code{"point"}) or area landmarks (\code{"area"}). #'                Defaults to \code{"point"}.}
 
-\item{year}{the data year (defaults to 2015).}
+\item{year}{the data year (defaults to 2016).}
 
 \item{...}{arguments to be passed to the underlying `load_tiger` function, which is not exported.
 Options include \code{refresh}, which specifies whether or not to re-download shapefiles
@@ -40,5 +40,5 @@ Landmarks may be identified by a MAF/TIGER feature class code only and may not h
 landmark has a unique area landmark identifier (AREAID) or point landmark identifier (POINTID) value.
 }
 \seealso{
-\url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2015/TGRSHP2015_TechDoc_Ch3.pdf}
+\url{https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2015/TGRSHP2015_TechDoc_Ch3.pdf}
 }

@@ -1,3 +1,47 @@
+#' Set the cache directory to store shapefiles with tigris
+#'
+#' @description By default, tigris uses the rappdirs package to determine a suitable location to store shapefiles
+#' on the user's computer.  However, it is possible that the user would want to store shapefiles in a custom
+#' location.  This function allows users to set the cache directory, and stores the result in the user's
+#' .Renviron so that tigris will remember the location.
+#'
+#' Windows users: please note that you'll need to use double-backslashes or forward slashes
+#' when specifying your cache directory's path in R.
+#'
+#' @param path The full path to the desired cache directory
+#' @export
+#' @examples \dontrun{
+#' # Set the cache directory
+#' tigris_cache_dir('PATH TO MY NEW CACHE DIRECTORY')
+#'
+#' # Check to see if it has been set correctly
+#' Sys.getenv('TIGRIS_CACHE_DIR')
+#' }
+tigris_cache_dir <- function(path) {
+  home <- Sys.getenv("HOME")
+  renv <- file.path(home, ".Renviron")
+  if (!file.exists(renv)) {
+    file.create(renv)
+  }
+
+  check <- readLines(renv)
+
+  if (isTRUE(any(grepl("TIGRIS_CACHE_DIR", check)))) {
+    oldenv <- read.table(renv, stringsAsFactors = FALSE)
+    newenv <- oldenv[-grep("TIGRIS_CACHE_DIR", oldenv),]
+    write.table(newenv, renv, quote = FALSE, sep = "\n",
+                col.names = FALSE, row.names = FALSE)
+  }
+
+  var <- paste0("TIGRIS_CACHE_DIR=", "'", path, "'")
+
+  write(var, renv, sep = "\n", append = TRUE)
+  message(sprintf("Your new tigris cache directory is %s. \nTo use now, restart R or run `readRenviron('~/.Renviron')`", path))
+
+}
+
+
+
 # Helper function to download Census data
 #
 # uses a global option "tigris_refresh" to control re-download of shapefiles (def: FALSE)
@@ -12,14 +56,17 @@ load_tiger <- function(url,
                        tigris_type=NULL,
                        class = getOption("tigris_class", "sp")) {
 
-  use_cache <- getOption("tigris_use_cache", TRUE)
+  use_cache <- getOption("tigris_use_cache", FALSE)
   tiger_file <- basename(url)
 
   obj <- NULL
 
   if (use_cache) {
-
-    cache_dir <- user_cache_dir("tigris")
+    if (Sys.getenv("TIGRIS_CACHE_DIR") != "") {
+      cache_dir <- Sys.getenv("TIGRIS_CACHE_DIR")
+    } else {
+      cache_dir <- user_cache_dir("tigris")
+    }
     if (!file.exists(cache_dir)) {
       dir.create(cache_dir, recursive=TRUE)
     }
@@ -29,6 +76,10 @@ load_tiger <- function(url,
       file_loc <- file.path(cache_dir, tiger_file)
 
       if (refresh | !file.exists(file_loc)) {
+        # try(download.file(url, file_loc, mode = "wb"))
+        # GET requests not working at the moment.
+        # Change back if you get additional info.
+
         try(GET(url,
                 write_disk(file_loc, overwrite=refresh),
                 progress(type="down")), silent=TRUE)
@@ -37,7 +88,7 @@ load_tiger <- function(url,
       shape <- gsub(".zip", "", tiger_file)
       shape <- gsub("_shp", "", shape) # for historic tracts
 
-      if (refresh | !file.exists(file.path(user_cache_dir("tigris"),
+      if (refresh | !file.exists(file.path(cache_dir,
                                  sprintf("%s.shp", shape)))) {
 
         unzip_tiger <- function() {
@@ -55,6 +106,8 @@ load_tiger <- function(url,
 
             message(sprintf("Previous download failed.  Re-download attempt %s of 3...",
                             as.character(i)))
+
+            # try(download.file(url, file_loc, mode = "wb"))
 
             try(GET(url,
                     write_disk(file_loc, overwrite=TRUE),
@@ -94,7 +147,7 @@ load_tiger <- function(url,
 
         if (is.na(proj4string(obj))) {
 
-          proj4string(obj) <- CRS("+proj=longlat +datum=NAD83 +no_defs +ellps=GRS80 +towgs84=0,0,0")
+          proj4string(obj) <- CRS("+proj=longlat +datum=NAD83 +no_defs")
 
         }
 
@@ -105,7 +158,7 @@ load_tiger <- function(url,
 
         if (is.na(st_crs(obj)$proj4string)) {
 
-          st_crs(obj) <- 4269
+          st_crs(obj) <- "+proj=longlat +datum=NAD83 +no_defs"
 
         }
 
@@ -118,8 +171,11 @@ load_tiger <- function(url,
   } else {
 
     tmp <- tempdir()
-    download.file(url, tiger_file, mode = 'wb')
-    unzip(tiger_file, exdir = tmp)
+    file_loc <- file.path(tmp, tiger_file)
+    try(GET(url, write_disk(file_loc),
+            progress(type = "down")), silent = TRUE)
+    # download.file(url, tiger_file, mode = 'wb')
+    unzip(file_loc, exdir = tmp)
     shape <- gsub(".zip", "", tiger_file)
     shape <- gsub("_shp", "", shape) # for historic tracts
 
@@ -131,7 +187,7 @@ load_tiger <- function(url,
 
       if (is.na(proj4string(obj))) {
 
-        proj4string(obj) <- CRS("+proj=longlat +datum=NAD83 +no_defs +ellps=GRS80 +towgs84=0,0,0")
+        proj4string(obj) <- CRS("+proj=longlat +datum=NAD83 +no_defs")
 
       }
 
@@ -142,7 +198,7 @@ load_tiger <- function(url,
 
       if (is.na(st_crs(obj)$proj4string)) {
 
-        st_crs(obj) <- 4269
+        st_crs(obj) <- "+proj=longlat +datum=NAD83 +no_defs"
 
       }
 

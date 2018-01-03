@@ -8,7 +8,7 @@
 #'
 #' @param cb If cb is set to TRUE, download a generalized (1:500k)
 #'        file.  Defaults to FALSE (the most detailed TIGER/Line file)
-#' @param year the data year (defaults to 2015).
+#' @param year the data year (defaults to 2016).
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
 #'        (defaults to \code{FALSE}).
@@ -37,7 +37,7 @@ native_areas <- function(cb = FALSE, year = NULL, ...) {
 
   if (is.null(year)) {
 
-    year <- getOption("tigris_year", 2015)
+    year <- getOption("tigris_year", 2016)
 
   }
 
@@ -56,12 +56,12 @@ native_areas <- function(cb = FALSE, year = NULL, ...) {
 
   if (cb == TRUE) {
 
-    url <- sprintf("http://www2.census.gov/geo/tiger/GENZ%s/shp/cb_%s_us_aiannh_500k.zip",
+    url <- sprintf("https://www2.census.gov/geo/tiger/GENZ%s/shp/cb_%s_us_aiannh_500k.zip",
                    cyear, cyear)
 
   } else {
 
-    url <- sprintf("http://www2.census.gov/geo/tiger/TIGER%s/AIANNH/tl_%s_us_aiannh.zip",
+    url <- sprintf("https://www2.census.gov/geo/tiger/TIGER%s/AIANNH/tl_%s_us_aiannh.zip",
                    cyear, cyear)
 
   }
@@ -77,7 +77,7 @@ native_areas <- function(cb = FALSE, year = NULL, ...) {
 #' recognized American Indian reservations and/or off-reservation trust lands or Oklahoma tribal statistical
 #' areas (OTSAs)."  For more information, please see the link provided.
 #'
-#' @param year The year for which you'd like to download data (defaults to 2015).
+#' @param year The year for which you'd like to download data (defaults to 2016).
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
 #'        (defaults to \code{FALSE}).
@@ -99,7 +99,7 @@ tribal_subdivisions_national <- function(year = NULL, ...) {
 
   if (is.null(year)) {
 
-    year <- getOption("tigris_year", 2015)
+    year <- getOption("tigris_year", 2016)
 
   }
 
@@ -116,11 +116,11 @@ tribal_subdivisions_national <- function(year = NULL, ...) {
 
   if (year == 2015) {
 
-    url <- "http://www2.census.gov/geo/tiger/TIGER2015/AITSN/tl_2015_us_aitsn.zip"
+    url <- "https://www2.census.gov/geo/tiger/TIGER2015/AITSN/tl_2015_us_aitsn.zip"
 
   } else {
 
-    url <- paste0("http://www2.census.gov/geo/tiger/TIGER",
+    url <- paste0("https://www2.census.gov/geo/tiger/TIGER",
                   as.character(year),
                   "/AITS/tl_",
                   as.character(year),
@@ -142,7 +142,7 @@ tribal_subdivisions_national <- function(year = NULL, ...) {
 #'
 #' @param cb If cb is set to TRUE, download a generalized (1:500k)
 #'        file.  Defaults to FALSE (the most detailed TIGER/Line file)
-#' @param year the data year (defaults to 2015).
+#' @param year the data year (defaults to 2016).
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
 #'        (defaults to \code{FALSE}).
@@ -153,7 +153,7 @@ alaska_native_regional_corporations <- function(cb = FALSE, year = NULL, ...) {
 
   if (is.null(year)) {
 
-    year <- getOption("tigris_year", 2015)
+    year <- getOption("tigris_year", 2016)
 
   }
 
@@ -172,12 +172,12 @@ alaska_native_regional_corporations <- function(cb = FALSE, year = NULL, ...) {
 
   if (cb == TRUE) {
 
-    url <- sprintf("http://www2.census.gov/geo/tiger/GENZ%s/shp/cb_%s_02_anrc_500k.zip",
+    url <- sprintf("https://www2.census.gov/geo/tiger/GENZ%s/shp/cb_%s_02_anrc_500k.zip",
                    cyear, cyear)
 
   } else {
 
-    url <- sprintf("http://www2.census.gov/geo/tiger/TIGER%s/ANRC/tl_%s_02_anrc.zip",
+    url <- sprintf("https://www2.census.gov/geo/tiger/TIGER%s/ANRC/tl_%s_02_anrc.zip",
                    cyear, cyear)
 
   }
@@ -203,7 +203,7 @@ alaska_native_regional_corporations <- function(cb = FALSE, year = NULL, ...) {
 #' but may contain blocks from several different
 #' standard census block groups."  For more information, please see the link provided.
 #'
-#' @param year the data year (defaults to 2015).
+#' @param year the data year (defaults to 2016).
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
 #'        (defaults to \code{FALSE}).
@@ -225,7 +225,7 @@ tribal_block_groups <- function(year = NULL, ...) {
 
   if (is.null(year)) {
 
-    year <- getOption("tigris_year", 2015)
+    year <- getOption("tigris_year", 2016)
 
   }
 
@@ -240,7 +240,7 @@ tribal_block_groups <- function(year = NULL, ...) {
 
   }
 
-  url <- sprintf("http://www2.census.gov/geo/tiger/TIGER%s/TBG/tl_%s_us_tbg.zip",
+  url <- sprintf("https://www2.census.gov/geo/tiger/TIGER%s/TBG/tl_%s_us_tbg.zip",
                  as.character(year), as.character(year))
 
   return(load_tiger(url, ...))
@@ -259,7 +259,7 @@ tribal_block_groups <- function(year = NULL, ...) {
 #' census tracts. Unlike standard census tracts, however, tribal census tracts may cross state, county, and
 #' standard census tract boundaries." For more information, please view the link provided.
 #'
-#' @param year the data year (defaults to 2015).
+#' @param year the data year (defaults to 2016).
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
 #'        (defaults to \code{FALSE}).
@@ -281,7 +281,7 @@ tribal_census_tracts <- function(year = NULL, ...) {
 
   if (is.null(year)) {
 
-    year <- getOption("tigris_year", 2015)
+    year <- getOption("tigris_year", 2016)
 
   }
 
@@ -296,7 +296,7 @@ tribal_census_tracts <- function(year = NULL, ...) {
 
   }
 
-  url <- sprintf("http://www2.census.gov/geo/tiger/TIGER%s/TTRACT/tl_%s_us_ttract.zip",
+  url <- sprintf("https://www2.census.gov/geo/tiger/TIGER%s/TTRACT/tl_%s_us_ttract.zip",
                  as.character(year), as.character(year))
 
   return(load_tiger(url, ...))

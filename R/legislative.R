@@ -18,7 +18,7 @@
 #'        TIGER/Line file).
 #' @param resolution The resolution of the cartographic boundary file (if cb == TRUE).
 #'        Defaults to '500k'; options include '5m' (1:5 million) and '20m' (1:20 million).
-#' @param year the data year (defaults to 2015).
+#' @param year the data year (defaults to 2016).  To get boundaries for the 115th congress, set \code{year = 2016}.
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
 #'        (defaults to \code{FALSE}).
@@ -39,8 +39,18 @@ congressional_districts <- function(cb = FALSE, resolution = '500k', year = NULL
 
   if (is.null(year)) {
 
-    year <- getOption("tigris_year", 2015)
+    year <- getOption("tigris_year", 2016)
 
+  }
+
+  if (year == 2016) {
+    congress <- "115"
+  } else if (year %in% 2014:2015) {
+    congress <- "114"
+  } else if (year == 2013) {
+    congress <- "113"
+  } else if (year %in% 2011:2012) {
+    congress <- "112"
   }
 
   if (year < 2011) {
@@ -62,15 +72,15 @@ congressional_districts <- function(cb = FALSE, resolution = '500k', year = NULL
 
   if (cb == TRUE) {
 
-    url <- sprintf("http://www2.census.gov/geo/tiger/GENZ%s/shp/cb_%s_us_cd114_%s.zip",
-                   cyear, cyear, resolution)
+    url <- sprintf("https://www2.census.gov/geo/tiger/GENZ%s/shp/cb_%s_us_cd%s_%s.zip",
+                   cyear, cyear, congress, resolution)
 
     if (year == 2013) url <- gsub("shp/", "", url)
 
   } else {
 
-    url <- sprintf("http://www2.census.gov/geo/tiger/TIGER%s/CD/tl_%s_us_cd114.zip",
-                   cyear, cyear)
+    url <- sprintf("https://www2.census.gov/geo/tiger/TIGER%s/CD/tl_%s_us_cd%s.zip",
+                   cyear, cyear, congress)
 
   }
 
@@ -93,7 +103,7 @@ congressional_districts <- function(cb = FALSE, resolution = '500k', year = NULL
 #' @param cb If cb is set to TRUE, download a generalized (1:500k)
 #'        cartographic boundary file.  Defaults to FALSE (the most detailed
 #'        TIGER/Line file).
-#' @param year the data year (defaults to 2015).
+#' @param year the data year (defaults to 2016).
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
 #'        (defaults to \code{FALSE}).
@@ -115,7 +125,7 @@ state_legislative_districts <- function(state, house = "upper", cb = FALSE, year
 
   if (is.null(year)) {
 
-    year <- getOption("tigris_year", 2015)
+    year <- getOption("tigris_year", 2016)
 
   }
 
@@ -156,15 +166,30 @@ state_legislative_districts <- function(state, house = "upper", cb = FALSE, year
 
   if (cb == TRUE) {
 
-    url <- sprintf("http://www2.census.gov/geo/tiger/GENZ%s/shp/cb_%s_%s_%s_500k.zip",
+    if (year == 2010) {
+      if (type == "sldu") {
+        url <- sprintf("https://www2.census.gov/geo/tiger/GENZ2010/gz_2010_%s_610_u2_500k.zip",
+                       state)
+      } else if (type == "sldl") {
+        url <- sprintf("https://www2.census.gov/geo/tiger/GENZ2010/gz_2010_%s_620_l2_500k.zip",
+                       state)
+      }
+    }
+
+    url <- sprintf("https://www2.census.gov/geo/tiger/GENZ%s/shp/cb_%s_%s_%s_500k.zip",
                    cyear, cyear, state, type)
 
     if (year == 2013) url <- gsub("shp/", "", url)
 
   } else {
 
-    url <- sprintf("http://www2.census.gov/geo/tiger/TIGER%s/%s/tl_%s_%s_%s.zip",
-                  cyear, toupper(type), cyear, state, type)
+    if (year %in% c(2000, 2010)) {
+      url <- sprintf("https://www2.census.gov/geo/tiger/TIGER2010/%s/%s/tl_2010_%s_%s%s.zip",
+                     toupper(type), cyear, state, type, substr(cyear, 3, 4))
+    } else {
+      url <- sprintf("https://www2.census.gov/geo/tiger/TIGER%s/%s/tl_%s_%s_%s.zip",
+                     cyear, toupper(type), cyear, state, type)
+    }
 
   }
 
@@ -207,7 +232,7 @@ voting_districts <- function(state) {
 
   if (is.null(state)) stop("Invalid state", call.=FALSE)
 
-  url <- paste0("http://www2.census.gov/geo/tiger/TIGER2012/VTD/tl_2012_",
+  url <- paste0("https://www2.census.gov/geo/tiger/TIGER2012/VTD/tl_2012_",
                 state,
                 "_vtd10.zip")
 
