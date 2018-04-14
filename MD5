@@ -1,11 +1,11 @@
-d9710034555aad81f12a2d777d8f7688 *DESCRIPTION
+5d02c3ea908aed77d8e3d7ebb5ce1754 *DESCRIPTION
 66a20665f7a943650674fb1bc403e1ad *LICENSE
 5a9126d9e621db816968bd4b1c1e812c *NAMESPACE
 2dbfccf96deaa8e2555c1c3e325d3f41 *NEWS
-daab8c542522fee7dfe7abaab347cb40 *R/enumeration_units.R
+e0c14d461559a1450457194852418c31 *R/enumeration_units.R
 08fe71cf2b5b68d17cf9669b57424252 *R/fips_codes.R
 4530d10d68e456464705e55b220b99b7 *R/geocode.R
-6de8cce6b7655824ca8b95804824bf2b *R/helpers.R
+7ab449bc9561c6408bfc1f76224607d0 *R/helpers.R
 30e9635857da9a9ca1b0ebb4c2a9a8bd *R/landmarks.R
 3e7d4dcb8bbecc0ba0043b4e01e8731f *R/legislative.R
 eab08a83df8449528d0050d0f20cff77 *R/metro_areas.R
@@ -18,7 +18,7 @@ fa2fc6fb3f0eb719de76abc612d79b8b *R/pumas.R
 5ebda960c97743af689740532bb4e1db *R/transportation.R
 5e5697d1818a725846039c88f8bd0d7d *R/utils.R
 146f85733e0882e366a607d033216033 *R/water.R
-a6e26c791c3492e5c98dd8a420cfa4da *R/zzz.R
+f24001fb5148546a804cef60c49a14b0 *R/zzz.R
 9e743e44b5eaf5df58e5f63c89ecc570 *README.md
 9b3a1eb434f0fa7d5957b9307281f0d4 *data/fips_codes.rda
 1aaa66ef9b307a2bc406d7a494ceeafd *man/alaska_native_regional_corporations.Rd
