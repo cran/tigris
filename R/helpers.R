@@ -54,7 +54,9 @@ tigris_cache_dir <- function(path) {
 load_tiger <- function(url,
                        refresh=getOption("tigris_refresh", FALSE),
                        tigris_type=NULL,
-                       class = getOption("tigris_class", "sp")) {
+                       class = getOption("tigris_class", "sp"),
+                       progress_bar = TRUE,
+                       query = NULL) {
 
   use_cache <- getOption("tigris_use_cache", FALSE)
   tiger_file <- basename(url)
@@ -81,9 +83,17 @@ load_tiger <- function(url,
         # GET requests not working at the moment.
         # Change back if you get additional info.
 
-        try(GET(url,
-                write_disk(file_loc, overwrite=refresh),
-                progress(type="down")), silent=TRUE)
+        if (progress_bar) {
+          try(GET(url,
+                  write_disk(file_loc, overwrite=refresh),
+                  progress(type="down")), silent=TRUE)
+        } else {
+          try(GET(url,
+                  write_disk(file_loc, overwrite=refresh)),
+                  silent=TRUE)
+        }
+
+
       }
 
       shape <- gsub(".zip", "", tiger_file)
@@ -110,9 +120,17 @@ load_tiger <- function(url,
 
             # try(download.file(url, file_loc, mode = "wb"))
 
-            try(GET(url,
-                    write_disk(file_loc, overwrite=TRUE),
-                    progress(type="down")), silent=TRUE)
+            if (progress_bar) {
+              try(GET(url,
+                      write_disk(file_loc, overwrite=TRUE),
+                      progress(type="down")), silent=TRUE)
+            } else {
+              try(GET(url,
+                      write_disk(file_loc, overwrite=TRUE)),
+                      silent=TRUE)
+            }
+
+
 
             shape <- gsub(".zip", "", tiger_file)
             shape <- gsub("_shp", "", shape)
@@ -173,8 +191,16 @@ load_tiger <- function(url,
 
     tmp <- tempdir()
     file_loc <- file.path(tmp, tiger_file)
-    try(GET(url, write_disk(file_loc),
-            progress(type = "down")), silent = TRUE)
+
+    if (progress_bar) {
+      try(GET(url, write_disk(file_loc),
+              progress(type = "down")), silent = TRUE)
+    } else {
+      try(GET(url, write_disk(file_loc)),
+              silent = TRUE)
+    }
+
+
     # download.file(url, tiger_file, mode = 'wb')
     unzip(file_loc, exdir = tmp)
     shape <- gsub(".zip", "", tiger_file)

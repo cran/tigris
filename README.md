@@ -4,7 +4,7 @@
 
 Download and use Census TIGER/Line shapefiles in R
 
-`tigris` is an R package that allows users to directly download and use TIGER/Line shapefiles (<https://www.census.gov/geo/maps-data/data/tiger-line.html>) from the US Census Bureau.  
+__tigris__ is an R package that allows users to directly download and use TIGER/Line shapefiles (<https://www.census.gov/geo/maps-data/data/tiger-line.html>) from the US Census Bureau.  
 
 To install the package from CRAN, issue the following command in R: 
 
@@ -17,30 +17,6 @@ Or, get the development version from GitHub:
 ```
 devtools::install_github('walkerke/tigris')
 ```
-
-__In version 0.6__: 
-
-* You are now able to specify a custom cache directory for your data.  To set the cache directory, use the new `tigris_cache_dir()` function: 
-
-```r
-library(tigris)
-tigris_cache_dir("PATH TO YOUR CUSTOM CACHE DIRECTORY")
-# Restart R
-options(tigris_use_cache = TRUE)
-```
-
-* tigris now defaults to the 2016 TIGER/Line and cartographic boundary shapefiles. 
-
-* Thanks to contributors from Transport Foundry (https://github.com/transportfoundry), tigris now includes some geolocator functions.  For example, to find out the Census block ID of a given address: 
-
-```r
-call_geolocator("2850 S University Dr", "Fort Worth", "TX")
-
-Address (2850 S University Dr Fort Worth TX) returned more than one address match. The first match was returned.
-[1] "484391042014000"
-```
-
-* Stay tuned for batch geocoding support in a future release!
 
 To learn how to use the package, I'd recommend the following materials: 
 

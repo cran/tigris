@@ -66,6 +66,7 @@ append_geoid <- function(address, geoid_type = 'block') {
 #' @param street A character string indicating a street name and number
 #' @param city A character string indicating a city
 #' @param state A two-digit character string with a state postal code
+#' @param zip A five-digit character string with a postal zip code. Optional parameter.
 #'
 #' @return A character string representing the Census block of the supplied
 #'   address.
@@ -75,15 +76,35 @@ append_geoid <- function(address, geoid_type = 'block') {
 #'
 #' @export
 #'
-call_geolocator <- function(street, city, state) {
-  # Build url
+call_geolocator <- function(street, city, state, zip = NA) {
+
   call_start <- "https://geocoding.geo.census.gov/geocoder/geographies/address?"
 
-  url <- paste0(
-    "street=", utils::URLencode(street),
-    "&city=", utils::URLencode(city),
-    "&state=", state
-  )
+  if(is.na(zip)){
+    # Build url when zip is default/NA
+    url <- paste0(
+      "street=", utils::URLencode(street),
+      "&city=", utils::URLencode(city),
+      "&state=", state
+    )}
+
+  if(!is.na(zip)){
+    # Build url when zip is not default/NA
+    if(class(zip) == "character" & nchar(zip) == 5 & !grepl("\\D", zip)){
+      url <- paste0(
+        "street=", utils::URLencode(street),
+        "&city=", utils::URLencode(city),
+        "&state=", state,
+        "&zip=", zip
+      )} else {
+        message("'zip' (", paste0(zip), ") was not a 5-character-long string composed of :digits:. Using only street, city, state.")
+        url <- paste0(
+          "street=", utils::URLencode(street),
+          "&city=", utils::URLencode(city),
+          "&state=", state
+        )
+      }
+    }
 
   call_end <- "&benchmark=Public_AR_Census2010&vintage=Census2010_Census2010&layers=14&format=json"
 
@@ -109,10 +130,12 @@ call_geolocator <- function(street, city, state) {
 }
 
 
-#' Call geolocator for one address with lat/lon
+#' Call geolocator for one address with lat/lon, adds option to set benchmark and vintage if not provided defualts to most recent.
 #'
 #' @param lat A numeric value
 #' @param lon A numeric value
+#' @param benchmark time period when a snapshot of address ranges was taken
+#' @param vintage census or survey that the address range relates to
 #'
 #' @return A character string representing the Census block of the supplied
 #'   lat/lon.
@@ -121,35 +144,42 @@ call_geolocator <- function(street, city, state) {
 #' @importFrom httr GET stop_for_status
 #'
 #' @author Josie Kressner, \email{josie@@transportfoundry.com}
-#'
+#' @author Mark Richards, \email{Mark.Richards.002@@gmail.com}
 #' @export
 #'
-call_geolocator_latlon <- function(lat, lon) {
+call_geolocator_latlon <- function(lat, lon, benchmark, vintage) {
+  if(missing(benchmark)) {
+    benchmark<-"Public_AR_Current"
+  } else {
+    benchmark<-benchmark
+  }
+  if(missing(vintage)) {
+    vintage<-"Current_Current"
+  } else {
+    vintage<-vintage
+  }
   # Build url
   call_start <- "https://geocoding.geo.census.gov/geocoder/geographies/coordinates?"
-
-  url <- paste0(
-    "x=", lon,
-    "&y=", lat
-  )
-
-  call_end <- "&benchmark=Public_AR_Census2010&vintage=Census2010_Census2010&layers=14&format=json"
-
-  url_full <- paste0(call_start, url, call_end)
-
+  
+  url <- paste0("x=", lon,"&y=", lat)
+  benchmark0 <- paste0("&benchmark=", benchmark)
+  vintage0 <- paste0("&vintage=", vintage, "&format=json")
+  
+  url_full <- paste0(call_start, url, benchmark0, vintage0)
+  #print(url_full)
   # Check response
   r <- httr::GET(url_full)
   httr::stop_for_status(r)
   response <- httr::content(r)
-  if (length(response$result$geographies$`Census Blocks`) == 0) {
+  if (length(response$result$geographies$`2010 Census Blocks`[[1]]$GEOID) == 0) {
     message(paste0("Lat/lon (", lat, ", ", lon,
                    ") returned no geocodes. An NA was returned."))
     return(NA_character_)
   } else {
-    if (length(response$result$geographies$`Census Blocks`) > 1) {
+    if (length(response$result$geographies$`2010 Census Blocks`[[1]]$GEOID) > 1) {
       message(paste0("Lat/lon (", lat, ", ", lon,
                      ") returned more than geocode. The first match was returned."))
     }
-    return(response$result$geographies$`Census Blocks`[[1]]$GEOID)
+    return(response$result$geographies$`2010 Census Blocks`[[1]]$GEOID)
   }
 }

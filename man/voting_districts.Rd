@@ -4,15 +4,16 @@
 \alias{voting_districts}
 \title{Download a voting districts shapefile (2012 TIGER/Line) into R}
 \usage{
-voting_districts(state)
+voting_districts(state, ...)
 }
 \arguments{
 \item{state}{The state for which you'd like to retrieve data.  Can be a state name,
 state abbreviation, or FIPS code.}
 
 \item{...}{arguments to be passed to the underlying `load_tiger` function, which is not exported.
-Options include \code{refresh}, which specifies whether or not to re-download shapefiles
-(defaults to \code{FALSE}).}
+Options include \code{class}, which can be set to \code{"sp"} (the default) or \code{"sf"} to
+request sp or sf class objects, and \code{refresh}, which specifies whether or not
+to re-download shapefiles (defaults to \code{FALSE}).}
 }
 \description{
 This function allows you to download a voting districts boundary file into R.  The voting districts
@@ -38,3 +39,4 @@ plot(ia)
 Other legislative district functions: \code{\link{congressional_districts}},
   \code{\link{state_legislative_districts}}
 }
+\concept{legislative district functions}

@@ -7,11 +7,12 @@
 tribal_census_tracts(year = NULL, ...)
 }
 \arguments{
-\item{year}{the data year (defaults to 2016).}
+\item{year}{the data year (defaults to 2017).}
 
 \item{...}{arguments to be passed to the underlying `load_tiger` function, which is not exported.
-Options include \code{refresh}, which specifies whether or not to re-download shapefiles
-(defaults to \code{FALSE}).}
+Options include \code{class}, which can be set to \code{"sp"} (the default) or \code{"sf"} to
+request sp or sf class objects, and \code{refresh}, which specifies whether or
+not to re-download shapefiles (defaults to \code{FALSE}).}
 }
 \description{
 From the US Census Bureau: "Tribal census tracts are relatively small statistical
@@ -45,3 +46,4 @@ Other native/tribal geometries functions: \code{\link{alaska_native_regional_cor
   \code{\link{tribal_block_groups}},
   \code{\link{tribal_subdivisions_national}}
 }
+\concept{native/tribal geometries functions}

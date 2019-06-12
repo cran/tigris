@@ -4,8 +4,8 @@
 \alias{counties}
 \title{Download a US Counties shapefile into R, and optionally subset by state}
 \usage{
-counties(state = NULL, cb = FALSE, resolution = "500k", year = NULL,
-  ...)
+counties(state = NULL, cb = FALSE, resolution = "500k",
+  year = NULL, ...)
 }
 \arguments{
 \item{state}{The two-digit FIPS code (string) of the state you want, or a
@@ -18,11 +18,12 @@ counties file.  Defaults to FALSE (the most detailed TIGER file).}
 \item{resolution}{The resolution of the cartographic boundary file (if cb == TRUE).
 Defaults to '500k'; options include '5m' (1:5 million) and '20m' (1:20 million).}
 
-\item{year}{the data year; defaults to 2016}
+\item{year}{the data year; defaults to 2017}
 
 \item{...}{arguments to be passed to the underlying `load_tiger` function, which is not exported.
-Options include \code{refresh}, which specifies whether or not to re-download shapefiles
-(defaults to \code{FALSE}).}
+Options include \code{class}, which can be set to \code{"sp"} (the default) or \code{"sf"} to
+request sp or sf class objects, and \code{refresh}, which specifies whether or
+not to re-download shapefiles (defaults to \code{FALSE}).}
 }
 \description{
 Description from the US Census Bureau (see link for source):
@@ -79,3 +80,4 @@ Other general area functions: \code{\link{block_groups}},
   \code{\link{school_districts}}, \code{\link{states}},
   \code{\link{tracts}}, \code{\link{zctas}}
 }
+\concept{general area functions}
