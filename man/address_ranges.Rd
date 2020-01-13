@@ -14,7 +14,7 @@ to download the roads for. Can also be state name or abbreviation
 \item{county}{The three-digit FIPS code of the county you'd like the roads for.
 Can also be a county name.}
 
-\item{year}{the data year (defaults to 2017).}
+\item{year}{the data year (defaults to 2018).}
 
 \item{...}{arguments to be passed to the underlying `load_tiger` function, which is not exported.
 Options include \code{class}, which can be set to \code{"sp"} (the default) or \code{"sf"} to
@@ -25,10 +25,12 @@ not to re-download shapefiles (defaults to \code{FALSE}).}
 Download an address range features shapefile into R
 }
 \seealso{
-\url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2015/TGRSHP2015_TechDoc.pdf}
+\url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2018/TGRSHP2018_TechDoc.pdf}
 
-Other transportation functions: \code{\link{primary_roads}},
-  \code{\link{primary_secondary_roads}},
-  \code{\link{rails}}, \code{\link{roads}}
+Other transportation functions: 
+\code{\link{primary_roads}()},
+\code{\link{primary_secondary_roads}()},
+\code{\link{rails}()},
+\code{\link{roads}()}
 }
 \concept{transportation functions}

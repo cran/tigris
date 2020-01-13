@@ -14,7 +14,7 @@ the combined NECTA file (\code{'combined'}), or the NECTA divisions file (\code{
 cartographic boundary file.  Defaults to FALSE (the most detailed
 TIGER/Line file).  Only available when \code{type = 'necta'}.}
 
-\item{year}{The data year (defaults to 2017).}
+\item{year}{The data year (defaults to 2018).}
 
 \item{...}{arguments to be passed to the underlying `load_tiger` function, which is not exported.
 Options include \code{class}, which can be set to \code{"sp"} (the default) or \code{"sf"} to
@@ -45,10 +45,12 @@ plot(ne)
 }
 }
 \seealso{
-\url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2015/TGRSHP2015_TechDoc.pdf}
+\url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2018/TGRSHP2018_TechDoc.pdf}
 
-Other metro area functions: \code{\link{combined_statistical_areas}},
-  \code{\link{core_based_statistical_areas}},
-  \code{\link{metro_divisions}}, \code{\link{urban_areas}}
+Other metro area functions: 
+\code{\link{combined_statistical_areas}()},
+\code{\link{core_based_statistical_areas}()},
+\code{\link{metro_divisions}()},
+\code{\link{urban_areas}()}
 }
 \concept{metro area functions}

@@ -7,7 +7,7 @@
 tribal_subdivisions_national(year = NULL, ...)
 }
 \arguments{
-\item{year}{The year for which you'd like to download data (defaults to 2017).}
+\item{year}{The year for which you'd like to download data (defaults to 2018).}
 
 \item{...}{arguments to be passed to the underlying `load_tiger` function, which is not exported.
 Options include \code{class}, which can be set to \code{"sp"} (the default) or \code{"sf"} to
@@ -34,11 +34,12 @@ leaflet(trib) \%>\%
 }
 }
 \seealso{
-\url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2015/TGRSHP2015_TechDoc.pdf}
+\url{https://www2.census.gov/geo/pdfs/reference/GARM/Ch5GARM.pdf}
 
-Other native/tribal geometries functions: \code{\link{alaska_native_regional_corporations}},
-  \code{\link{native_areas}},
-  \code{\link{tribal_block_groups}},
-  \code{\link{tribal_census_tracts}}
+Other native/tribal geometries functions: 
+\code{\link{alaska_native_regional_corporations}()},
+\code{\link{native_areas}()},
+\code{\link{tribal_block_groups}()},
+\code{\link{tribal_census_tracts}()}
 }
 \concept{native/tribal geometries functions}

@@ -13,7 +13,7 @@ be state name or state abbreviation.}
 \item{cb}{If cb is set to TRUE, download a generalized (1:500k)
 states file.  Defaults to FALSE (the most detailed TIGER/Line file)}
 
-\item{year}{the data year (defaults to 2017).}
+\item{year}{the data year (defaults to 2018).}
 
 \item{...}{arguments to be passed to the underlying `load_tiger` function, which is not exported.
 Options include \code{class}, which can be set to \code{"sp"} (the default) or \code{"sf"} to
@@ -52,12 +52,17 @@ plot(us_pumas)
 }
 }
 \seealso{
-\url{http://www.census.gov/geo/reference/puma.html}
+\url{https://www.census.gov/programs-surveys/geography/guidance/geo-areas/pumas.html}
 
-Other general area functions: \code{\link{block_groups}},
-  \code{\link{blocks}}, \code{\link{counties}},
-  \code{\link{county_subdivisions}}, \code{\link{places}},
-  \code{\link{school_districts}}, \code{\link{states}},
-  \code{\link{tracts}}, \code{\link{zctas}}
+Other general area functions: 
+\code{\link{block_groups}()},
+\code{\link{blocks}()},
+\code{\link{counties}()},
+\code{\link{county_subdivisions}()},
+\code{\link{places}()},
+\code{\link{school_districts}()},
+\code{\link{states}()},
+\code{\link{tracts}()},
+\code{\link{zctas}()}
 }
 \concept{general area functions}

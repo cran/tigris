@@ -4,8 +4,7 @@
 \alias{core_based_statistical_areas}
 \title{Download a core-based statistical area shapefile into R}
 \usage{
-core_based_statistical_areas(cb = FALSE, resolution = "500k",
-  year = NULL, ...)
+core_based_statistical_areas(cb = FALSE, resolution = "500k", year = NULL, ...)
 }
 \arguments{
 \item{cb}{If cb is set to TRUE, download a generalized (1:500k)
@@ -15,7 +14,7 @@ TIGER/Line file).}
 \item{resolution}{The resolution of the cartographic boundary file (if cb == TRUE).
 Defaults to '500k'; options include '5m' (1:5 million) and '20m' (1:20 million).}
 
-\item{year}{the data year (defaults to 2017).}
+\item{year}{the data year (defaults to 2018).}
 
 \item{...}{arguments to be passed to the underlying `load_tiger` function, which is not exported.
 Options include \code{class}, which can be set to \code{"sp"} (the default) or \code{"sf"} to
@@ -31,10 +30,12 @@ counties that have a high degree of social and economic integration (as measured
 core."  Please see the link provided for more information
 }
 \seealso{
-\url{http://www.census.gov/population/metro/}
+\url{https://www.census.gov/programs-surveys/metro-micro.html}
 
-Other metro area functions: \code{\link{combined_statistical_areas}},
-  \code{\link{metro_divisions}}, \code{\link{new_england}},
-  \code{\link{urban_areas}}
+Other metro area functions: 
+\code{\link{combined_statistical_areas}()},
+\code{\link{metro_divisions}()},
+\code{\link{new_england}()},
+\code{\link{urban_areas}()}
 }
 \concept{metro area functions}

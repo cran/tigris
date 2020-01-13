@@ -4,8 +4,7 @@
 \alias{combined_statistical_areas}
 \title{Download a combined statistical areas shapefile into R}
 \usage{
-combined_statistical_areas(cb = FALSE, resolution = "500k",
-  year = NULL, ...)
+combined_statistical_areas(cb = FALSE, resolution = "500k", year = NULL, ...)
 }
 \arguments{
 \item{cb}{If cb is set to TRUE, download a generalized (1:500k)
@@ -15,7 +14,7 @@ TIGER/Line file).}
 \item{resolution}{The resolution of the cartographic boundary file (if cb == TRUE).
 Defaults to '500k'; options include '5m' (1:5 million) and '20m' (1:20 million).}
 
-\item{year}{the data year (defaults to 2017).}
+\item{year}{the data year (defaults to 2018).}
 
 \item{...}{arguments to be passed to the underlying `load_tiger` function, which is not exported.
 Options include \code{class}, which can be set to \code{"sp"} (the default) or \code{"sf"} to
@@ -28,10 +27,12 @@ employment interchanges."  In turn, CSAs are composed of multiple metropolitan a
 not be compared with individual core-based statistical areas.
 }
 \seealso{
-\url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2015/TGRSHP2015_TechDoc.pdf}
+\url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2018/TGRSHP2018_TechDoc.pdf}
 
-Other metro area functions: \code{\link{core_based_statistical_areas}},
-  \code{\link{metro_divisions}}, \code{\link{new_england}},
-  \code{\link{urban_areas}}
+Other metro area functions: 
+\code{\link{core_based_statistical_areas}()},
+\code{\link{metro_divisions}()},
+\code{\link{new_england}()},
+\code{\link{urban_areas}()}
 }
 \concept{metro area functions}

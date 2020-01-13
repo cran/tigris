@@ -14,7 +14,7 @@ download the water features for.  Can also be state name or abbreviation
 \item{county}{The three-digit FIPS code of the county you'd like the water
 features for.  Can also be a county name.}
 
-\item{year}{the data year (defaults to 2017).}
+\item{year}{the data year (defaults to 2018).}
 
 \item{...}{arguments to be passed to the underlying `load_tiger` function, which is not exported.
 Options include \code{class}, which can be set to \code{"sp"} (the default) or \code{"sf"} to
@@ -39,9 +39,10 @@ plot(dallas_water)
 }
 }
 \seealso{
-\url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2015/TGRSHP2015_TechDoc.pdf}
+\url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2018/TGRSHP2018_TechDoc.pdf}
 
-Other water functions: \code{\link{coastline}},
-  \code{\link{linear_water}}
+Other water functions: 
+\code{\link{coastline}()},
+\code{\link{linear_water}()}
 }
 \concept{water functions}

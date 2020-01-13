@@ -13,7 +13,7 @@ states file.  Defaults to FALSE (the most detailed TIGER/Line file)}
 \item{resolution}{The resolution of the cartographic boundary file (if cb == TRUE).
 Defaults to '500k'; options include '5m' (1:5 million) and '20m' (1:20 million).}
 
-\item{year}{the year of the data download (defaults to 2017)}
+\item{year}{the year of the data download (defaults to 2018)}
 
 \item{...}{arguments to be passed to the underlying `load_tiger` function, which is not exported.
 Options include \code{class}, which can be set to \code{"sp"} (the default) or \code{"sf"} to
@@ -43,12 +43,17 @@ leaflet(states) \%>\%
 }
 }
 \seealso{
-\url{https://www.census.gov/geo/reference/gtc/gtc_state.html}
+\url{https://www2.census.gov/geo/pdfs/reference/GARM/Ch4GARM.pdf}
 
-Other general area functions: \code{\link{block_groups}},
-  \code{\link{blocks}}, \code{\link{counties}},
-  \code{\link{county_subdivisions}}, \code{\link{places}},
-  \code{\link{pumas}}, \code{\link{school_districts}},
-  \code{\link{tracts}}, \code{\link{zctas}}
+Other general area functions: 
+\code{\link{block_groups}()},
+\code{\link{blocks}()},
+\code{\link{counties}()},
+\code{\link{county_subdivisions}()},
+\code{\link{places}()},
+\code{\link{pumas}()},
+\code{\link{school_districts}()},
+\code{\link{tracts}()},
+\code{\link{zctas}()}
 }
 \concept{general area functions}

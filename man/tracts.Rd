@@ -17,7 +17,7 @@ Can also be a county name or vector of names.}
 \item{cb}{If cb is set to TRUE, download a generalized (1:500k)
 tracts file.  Defaults to FALSE (the most detailed TIGER/Line file)}
 
-\item{year}{defaults to 2017}
+\item{year}{defaults to 2018}
 
 \item{...}{arguments to be passed to the underlying `load_tiger` function, which is not exported.
 Options include \code{class}, which can be set to \code{"sp"} (the default) or \code{"sf"} to
@@ -66,12 +66,17 @@ leaflet(tarrant) \%>\%
 }
 }
 \seealso{
-\url{https://www.census.gov/geo/reference/gtc/gtc_ct.html}
+\url{https://www2.census.gov/geo/pdfs/reference/GARM/Ch10GARM.pdf}
 
-Other general area functions: \code{\link{block_groups}},
-  \code{\link{blocks}}, \code{\link{counties}},
-  \code{\link{county_subdivisions}}, \code{\link{places}},
-  \code{\link{pumas}}, \code{\link{school_districts}},
-  \code{\link{states}}, \code{\link{zctas}}
+Other general area functions: 
+\code{\link{block_groups}()},
+\code{\link{blocks}()},
+\code{\link{counties}()},
+\code{\link{county_subdivisions}()},
+\code{\link{places}()},
+\code{\link{pumas}()},
+\code{\link{school_districts}()},
+\code{\link{states}()},
+\code{\link{zctas}()}
 }
 \concept{general area functions}

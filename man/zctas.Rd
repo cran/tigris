@@ -4,8 +4,7 @@
 \alias{zctas}
 \title{Download a Zip Code Tabulation Area (ZCTA) shapefile into R}
 \usage{
-zctas(cb = FALSE, starts_with = NULL, year = NULL, state = NULL,
-  ...)
+zctas(cb = FALSE, starts_with = NULL, year = NULL, state = NULL, ...)
 }
 \arguments{
 \item{cb}{If cb is set to TRUE, download a generalized (1:500k)
@@ -20,7 +19,7 @@ ZCTAs you want to return.  For example, supplying the argument
 \code{starts_with = c("75", "76")} will return only those ZCTAs that begin
 with 75 or 76.  Defaults to NULL, which will return all ZCTAs in the US.}
 
-\item{year}{the data year (defaults to 2017).}
+\item{year}{the data year (defaults to 2018).}
 
 \item{state}{the state for which you are requesting data; only available for 2000 and 2010}
 
@@ -56,12 +55,17 @@ plot(mem_zcta)
 }
 }
 \seealso{
-\url{https://www.census.gov/geo/reference/zctas.html}
+\url{https://www.census.gov/programs-surveys/geography/guidance/geo-areas/zctas.html}
 
-Other general area functions: \code{\link{block_groups}},
-  \code{\link{blocks}}, \code{\link{counties}},
-  \code{\link{county_subdivisions}}, \code{\link{places}},
-  \code{\link{pumas}}, \code{\link{school_districts}},
-  \code{\link{states}}, \code{\link{tracts}}
+Other general area functions: 
+\code{\link{block_groups}()},
+\code{\link{blocks}()},
+\code{\link{counties}()},
+\code{\link{county_subdivisions}()},
+\code{\link{places}()},
+\code{\link{pumas}()},
+\code{\link{school_districts}()},
+\code{\link{states}()},
+\code{\link{tracts}()}
 }
 \concept{general area functions}

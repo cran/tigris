@@ -34,14 +34,14 @@
 #'        counties file.  Defaults to FALSE (the most detailed TIGER file).
 #' @param resolution The resolution of the cartographic boundary file (if cb == TRUE).
 #'        Defaults to '500k'; options include '5m' (1:5 million) and '20m' (1:20 million).
-#' @param year the data year; defaults to 2017
+#' @param year the data year; defaults to 2018
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{class}, which can be set to \code{"sp"} (the default) or \code{"sf"} to
 #'        request sp or sf class objects, and \code{refresh}, which specifies whether or
 #'        not to re-download shapefiles (defaults to \code{FALSE}).
 #' @export
 #' @family general area functions
-#' @seealso \url{https://www.census.gov/geo/reference/gtc/gtc_cou.html}
+#' @seealso \url{https://www2.census.gov/geo/pdfs/reference/GARM/Ch4GARM.pdf}
 #' @examples \dontrun{
 #' library(tigris)
 #' library(ggplot2)
@@ -66,7 +66,7 @@ counties <- function(state = NULL, cb = FALSE, resolution = '500k', year = NULL,
 
   if (is.null(year)) {
 
-    year <- getOption("tigris_year", 2017)
+    year <- getOption("tigris_year", 2018)
 
   }
 
@@ -220,13 +220,13 @@ counties <- function(state = NULL, cb = FALSE, resolution = '500k', year = NULL,
 #'        Can also be a county name or vector of names.
 #' @param cb If cb is set to TRUE, download a generalized (1:500k)
 #'        tracts file.  Defaults to FALSE (the most detailed TIGER/Line file)
-#' @param year defaults to 2017
+#' @param year defaults to 2018
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{class}, which can be set to \code{"sp"} (the default) or \code{"sf"} to
 #'        request sp or sf class objects, and \code{refresh}, which specifies whether or
 #'        not to re-download shapefiles (defaults to \code{FALSE}).
 #' @family general area functions
-#' @seealso \url{https://www.census.gov/geo/reference/gtc/gtc_ct.html}
+#' @seealso \url{https://www2.census.gov/geo/pdfs/reference/GARM/Ch10GARM.pdf}
 #' @export
 #' @examples \dontrun{
 #' library(tigris)
@@ -242,7 +242,7 @@ tracts <- function(state, county = NULL, cb = FALSE, year = NULL, ...) {
 
   if (is.null(year)) {
 
-    year <- getOption("tigris_year", 2017)
+    year <- getOption("tigris_year", 2018)
 
   }
 
@@ -385,13 +385,13 @@ tracts <- function(state, county = NULL, cb = FALSE, year = NULL, ...) {
 #' @param type Specify whether you want to return a unified school district (the default, \code{'unified'}),
 #'        an elementary school district (\code{'elementary'}), or a secondary school district (\code{'secondary'}).
 #'        Please note: elementary and secondary school districts do not exist in all states
-#' @param year the data year; defaults to 2017
+#' @param year the data year; defaults to 2018
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{class}, which can be set to \code{"sp"} (the default) or \code{"sf"} to
 #'        request sp or sf class objects, and \code{refresh}, which specifies whether or
 #'        not to re-download shapefiles (defaults to \code{FALSE}).
 #' @family general area functions
-#' @seealso \url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2015/TGRSHP2015_TechDoc.pdf}
+#' @seealso \url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2018/TGRSHP2018_TechDoc.pdf}
 #' @export
 #' @examples \dontrun{
 #' library(tigris)
@@ -409,7 +409,7 @@ school_districts <- function(state, type = 'unified', year = NULL, ...) {
 
   if (is.null(year)) {
 
-    year = getOption("tigris_year", 2017)
+    year = getOption("tigris_year", 2018)
 
   }
 
@@ -478,12 +478,12 @@ school_districts <- function(state, type = 'unified', year = NULL, ...) {
 #'        Can also be a county name or vector of names.
 #' @param cb If cb is set to TRUE, download a generalized (1:500k)
 #'        file.  Defaults to FALSE (the most detailed TIGER/Line file)
-#' @param year the data download year (defaults to 2017)
+#' @param year the data download year (defaults to 2018)
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{refresh}, which specifies whether or not to re-download shapefiles
 #'        (defaults to \code{FALSE}).
 #' @family general area functions
-#' @seealso \url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2015/TGRSHP2015_TechDoc.pdf}
+#' @seealso \url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2018/TGRSHP2018_TechDoc.pdf}
 #' @export
 #' @examples \dontrun{
 #' library(tigris)
@@ -496,7 +496,7 @@ block_groups <- function(state, county = NULL, cb = FALSE, year = NULL, ...) {
 
   if (is.null(year)) {
 
-    year = getOption("tigris_year", 2017)
+    year = getOption("tigris_year", 2018)
 
   }
 
@@ -637,14 +637,14 @@ block_groups <- function(state, county = NULL, cb = FALSE, year = NULL, ...) {
 #'        ZCTAs you want to return.  For example, supplying the argument
 #'        \code{starts_with = c("75", "76")} will return only those ZCTAs that begin
 #'        with 75 or 76.  Defaults to NULL, which will return all ZCTAs in the US.
-#' @param year the data year (defaults to 2017).
+#' @param year the data year (defaults to 2018).
 #' @param state the state for which you are requesting data; only available for 2000 and 2010
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{class}, which can be set to \code{"sp"} (the default) or \code{"sf"} to
 #'        request sp or sf class objects, and \code{refresh}, which specifies whether or
 #'        not to re-download shapefiles (defaults to \code{FALSE}).
 #' @family general area functions
-#' @seealso \url{https://www.census.gov/geo/reference/zctas.html}
+#' @seealso \url{https://www.census.gov/programs-surveys/geography/guidance/geo-areas/zctas.html}
 #' @export
 #' @examples \dontrun{
 #' # Example: get ZCTAs that intersect the Memphis, TN urbanized area
@@ -668,7 +668,7 @@ zctas <- function(cb = FALSE, starts_with = NULL, year = NULL, state = NULL, ...
 
   if (is.null(year)) {
 
-    year = getOption("tigris_year", 2017)
+    year = getOption("tigris_year", 2018)
 
   }
 
@@ -769,13 +769,13 @@ zctas <- function(cb = FALSE, starts_with = NULL, year = NULL, state = NULL, ...
 #' @param county The three-digit FIPS code (string) of the county you'd like to
 #'        subset for, or a vector of FIPS codes if you desire multiple counties.
 #'        Can also be a county name or vector of names.
-#' @param year The year for which you'd like to download data (defaults to 2017).
+#' @param year The year for which you'd like to download data (defaults to 2018).
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{class}, which can be set to \code{"sp"} (the default) or \code{"sf"} to
 #'        request sp or sf class objects, and \code{refresh}, which specifies whether or
 #'        not to re-download shapefiles (defaults to \code{FALSE}).
 #' @family general area functions
-#' @seealso \url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2015/TGRSHP2015_TechDoc.pdf}
+#' @seealso \url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2018/TGRSHP2018_TechDoc.pdf}
 #' @export
 #' @examples \dontrun{
 #' # Simple example using Rose Island, American Samoa
@@ -795,7 +795,7 @@ blocks <- function(state, county = NULL, year = NULL, ...) {
 
   if (is.null(year)) {
 
-    year <- getOption("tigris_year", 2017)
+    year <- getOption("tigris_year", 2018)
 
   }
 
@@ -867,12 +867,12 @@ blocks <- function(state, county = NULL, year = NULL, ...) {
 
 #' Download a county subdivision shapefile into R
 #'
-#' From the US Census Bureau (see link for source, and more information): "County subdivisions
-#' are the primary divisions of counties and their equivalent entities for the reporting of
-#' decennial census data. They include census county divisions, census subareas, minor civil
-#' divisions, and unorganized territories. They may represent legal or statistical entities.
-#' The 2015 TIGER/Line Shapefiles contain a 5-character FIPS code field for county subdivisions
-#' and an 8-character National Standards (GNIS) code."
+#' From the US Census Bureau (see link for source, and more information): "All counties and
+#' statistically equivalent entities consist of one or more geographic units that the Bureau
+#' of the Census recognizes as county subdivisions. The two major types of county subdivisions
+#'  are minor civil divisions(MCDs) and census county divisions (CCDs).
+#'  A State has either MCDs or their statistical equivalents, or CCDs; it cannot
+#'  contain both."
 #'
 #' @param state The two-digit FIPS code (string) of the state you want. Can also
 #'        be state name or state abbreviation.
@@ -881,13 +881,13 @@ blocks <- function(state, county = NULL, year = NULL, ...) {
 #'        Can also be a county name or vector of names.
 #' @param cb If cb is set to TRUE, download a generalized (1:500k)
 #'        file.  Defaults to FALSE (the most detailed TIGER/Line file)
-#' @param year the data year (defaults to 2017).
+#' @param year the data year (defaults to 2018).
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{class}, which can be set to \code{"sp"} (the default) or \code{"sf"} to
 #'        request sp or sf class objects, and \code{refresh}, which specifies whether or
 #'        not to re-download shapefiles (defaults to \code{FALSE}).
 #' @family general area functions
-#' @seealso \url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2015/TGRSHP2015_TechDoc.pdf}
+#' @seealso \url{https://www2.census.gov/geo/pdfs/reference/GARM/Ch8GARM.pdf}
 #' @export
 #'
 #' @examples \dontrun{
@@ -902,7 +902,7 @@ county_subdivisions <- function(state, county = NULL, cb = FALSE, year = NULL, .
 
   if (is.null(year)) {
 
-    year <- getOption("tigris_year", 2017)
+    year <- getOption("tigris_year", 2018)
 
   }
 

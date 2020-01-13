@@ -17,7 +17,7 @@ Can also be a county name or vector of names.}
 \item{cb}{If cb is set to TRUE, download a generalized (1:500k)
 file.  Defaults to FALSE (the most detailed TIGER/Line file)}
 
-\item{year}{the data download year (defaults to 2017)}
+\item{year}{the data download year (defaults to 2018)}
 
 \item{...}{arguments to be passed to the underlying `load_tiger` function, which is not exported.
 Options include \code{refresh}, which specifies whether or not to re-download shapefiles
@@ -56,13 +56,17 @@ plot(benton_bgs)
 }
 }
 \seealso{
-\url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2015/TGRSHP2015_TechDoc.pdf}
+\url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2018/TGRSHP2018_TechDoc.pdf}
 
-Other general area functions: \code{\link{blocks}},
-  \code{\link{counties}},
-  \code{\link{county_subdivisions}}, \code{\link{places}},
-  \code{\link{pumas}}, \code{\link{school_districts}},
-  \code{\link{states}}, \code{\link{tracts}},
-  \code{\link{zctas}}
+Other general area functions: 
+\code{\link{blocks}()},
+\code{\link{counties}()},
+\code{\link{county_subdivisions}()},
+\code{\link{places}()},
+\code{\link{pumas}()},
+\code{\link{school_districts}()},
+\code{\link{states}()},
+\code{\link{tracts}()},
+\code{\link{zctas}()}
 }
 \concept{general area functions}

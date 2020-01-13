@@ -14,7 +14,7 @@ be state name or state abbreviation.}
 subset for, or a vector of FIPS codes if you desire multiple counties.
 Can also be a county name or vector of names.}
 
-\item{year}{The year for which you'd like to download data (defaults to 2017).}
+\item{year}{The year for which you'd like to download data (defaults to 2018).}
 
 \item{...}{arguments to be passed to the underlying `load_tiger` function, which is not exported.
 Options include \code{class}, which can be set to \code{"sp"} (the default) or \code{"sf"} to
@@ -57,13 +57,17 @@ leaflet(rose_island) \%>\%
 }
 }
 \seealso{
-\url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2015/TGRSHP2015_TechDoc.pdf}
+\url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2018/TGRSHP2018_TechDoc.pdf}
 
-Other general area functions: \code{\link{block_groups}},
-  \code{\link{counties}},
-  \code{\link{county_subdivisions}}, \code{\link{places}},
-  \code{\link{pumas}}, \code{\link{school_districts}},
-  \code{\link{states}}, \code{\link{tracts}},
-  \code{\link{zctas}}
+Other general area functions: 
+\code{\link{block_groups}()},
+\code{\link{counties}()},
+\code{\link{county_subdivisions}()},
+\code{\link{places}()},
+\code{\link{pumas}()},
+\code{\link{school_districts}()},
+\code{\link{states}()},
+\code{\link{tracts}()},
+\code{\link{zctas}()}
 }
 \concept{general area functions}
