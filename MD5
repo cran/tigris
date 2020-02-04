@@ -1,4 +1,4 @@
-ba6d1068e80c7d9121ba2c81096f7417 *DESCRIPTION
+f7e32f7d1550411482fce8e71810ca9a *DESCRIPTION
 0c48f2b4ee102cc65cf932296d8339e1 *LICENSE
 d7375d0ef5ae07ea430f63571f4e4571 *NAMESPACE
 f39ec49cd4385ee640f6e5215e96a7b6 *NEWS
@@ -9,7 +9,7 @@ fb73c7d8a8a42905f0505a355a525e85 *R/fips_codes.R
 e668d890b575576fad7aaac3886f3f18 *R/landmarks.R
 f4515e4ac78ed4d182d9b4f7debb9a70 *R/legislative.R
 30ef9674de1325d3d433a1c9227c1ee8 *R/metro_areas.R
-6c1245e511ff38389ebfd49d504b68a5 *R/national.R
+86e4626af9367fd8530368193d1894a6 *R/national.R
 9fa02f66ddba6c407726efda74a706ae *R/native.R
 1b305f14c3c92137d4b70a25866c3167 *R/places.R
 0133412a5c24d0f56a5a3b74c6f4ac21 *R/pumas.R
@@ -51,7 +51,7 @@ ffd156e157038bae479c89f27d944e15 *man/list_states.Rd
 73a5547e78df6dc12e851a23e1f76d8a *man/lookup_code.Rd
 8bf74d139f0d413c946ec7e60578551e *man/metro_divisions.Rd
 ec1d57e33d11231849090ee76ae1fb86 *man/military.Rd
-fa492e0c72ed9d48969c19a7aa4d00f2 *man/nation.Rd
+ad98cc8532361757f696beea4995b5b8 *man/nation.Rd
 c96c69d7288b3e655fa1e8150fae23b3 *man/native_areas.Rd
 57a993f19af65ab209fc180c762f0f27 *man/new_england.Rd
 c3965d7dd88c453e3855187d91b88ef4 *man/places.Rd
