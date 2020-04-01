@@ -1,13 +1,13 @@
-f7e32f7d1550411482fce8e71810ca9a *DESCRIPTION
+ad24a4af15e0c5fe40291f65ca2a80a7 *DESCRIPTION
 0c48f2b4ee102cc65cf932296d8339e1 *LICENSE
 d7375d0ef5ae07ea430f63571f4e4571 *NAMESPACE
 f39ec49cd4385ee640f6e5215e96a7b6 *NEWS
-de088f6dfec614eb003dff536e4b30cb *R/enumeration_units.R
+62e990ceb3892fc465fcb2d154ee4e1b *R/enumeration_units.R
 fb73c7d8a8a42905f0505a355a525e85 *R/fips_codes.R
 46753b92e6cf088596ef10ac868578c7 *R/geocode.R
 51bda8105ee0b13c4e5cb3cf9e3fecad *R/helpers.R
 e668d890b575576fad7aaac3886f3f18 *R/landmarks.R
-f4515e4ac78ed4d182d9b4f7debb9a70 *R/legislative.R
+9b0b67fb1b44559f5b5a713d0b02405d *R/legislative.R
 30ef9674de1325d3d433a1c9227c1ee8 *R/metro_areas.R
 86e4626af9367fd8530368193d1894a6 *R/national.R
 9fa02f66ddba6c407726efda74a706ae *R/native.R
@@ -19,8 +19,8 @@ f4515e4ac78ed4d182d9b4f7debb9a70 *R/legislative.R
 4bff27a8eb0faf212103570126af8193 *R/utils.R
 e750cd041e6cf388572d2b43cd9c6b36 *R/water.R
 418c38d0c7da34ac924e4622ab9d86db *R/zzz.R
-fa3c1922407fc5e5edc147b3b58c7812 *README.md
-5d2d52a1c32a80b7b8de0bf7abb87d72 *data/fips_codes.rda
+8a17242adf137ae8ee618027b7359280 *README.md
+2123da09e915b5d85804de072bba034d *data/fips_codes.rda
 2ed57dd30b5338625a467d0ddb45189a *man/address_ranges.Rd
 3eb8b72bed7e560ad6bde0e0856e0204 *man/alaska_native_regional_corporations.Rd
 0786858fc661e1b5ca78e075933333f7 *man/append_geoid.Rd
@@ -31,7 +31,7 @@ a03846dbc8832a19d16ccc65f6d4ec66 *man/block_groups.Rd
 27029ba1b56dabde55d0d74037fa3f93 *man/call_geolocator_latlon.Rd
 c54e7c315bc451b48b905d32245e3400 *man/coastline.Rd
 104c8c3a79ebe1f595f2ae2da058e964 *man/combined_statistical_areas.Rd
-776259359d4cef67dd0ed2310900b120 *man/congressional_districts.Rd
+f199f06d224f3d7f50484a5e075fc679 *man/congressional_districts.Rd
 92634e41b3ec65c7411036f8af112887 *man/core_based_statistical_areas.Rd
 e5786564f151d17455547074613b1f94 *man/counties.Rd
 136e2eddf95d14035ba2bb20b1b0a548 *man/county_subdivisions.Rd
@@ -62,7 +62,7 @@ b261b925cc2e28506ba0c15e191b89bb *man/rails.Rd
 3aab29fec85080ca0fa45666045ade5c *man/rbind_tigris.Rd
 4cbc7c78c92559491e81099bfbe0dedc *man/regions.Rd
 38075566a3921c5e7262fab13b188b45 *man/roads.Rd
-e74bb844485d2094e1dae90398b244cb *man/school_districts.Rd
+220143aec8574b979f5e7717fb01a7df *man/school_districts.Rd
 04506d605940ecc121ad1248693c1bab *man/state_legislative_districts.Rd
 a4801415a8afe496edcb48e6bed4371a *man/states.Rd
 04931a68f4ff4b9922773c3a83315b22 *man/tigris-exports.Rd
