@@ -17,11 +17,11 @@ Please note: elementary and secondary school districts do not exist in all state
 \item{cb}{if TRUE, download a generalized (1:500k)
 school districts file.  Defaults to FALSE (the most detailed TIGER/Line file)}
 
-\item{year}{the data year; defaults to 2018}
+\item{year}{the data year; defaults to 2019}
 
 \item{...}{arguments to be passed to the underlying `load_tiger` function, which is not exported.
-Options include \code{class}, which can be set to \code{"sp"} (the default) or \code{"sf"} to
-request sp or sf class objects, and \code{refresh}, which specifies whether or
+Options include \code{class}, which can be set to \code{"sf"} (the default) or \code{"sp"} to
+request sf or sp class objects, and \code{refresh}, which specifies whether or
 not to re-download shapefiles (defaults to \code{FALSE}).}
 }
 \description{
@@ -54,7 +54,7 @@ leaflet(schools) \%>\%
 }
 }
 \seealso{
-\url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2018/TGRSHP2018_TechDoc.pdf}
+\url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2019/TGRSHP2019_TechDoc.pdf}
 
 Other general area functions: 
 \code{\link{block_groups}()},

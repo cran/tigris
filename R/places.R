@@ -28,10 +28,10 @@
 #' @param cb If cb is set to TRUE, download a generalized (1:500k)
 #'        cartographic boundary file.  Defaults to FALSE (the most detailed
 #'        TIGER/Line file).
-#' @param year the data year (defaults to 2018).
+#' @param year the data year (defaults to 2019).
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
-#'        Options include \code{class}, which can be set to \code{"sp"} (the default) or \code{"sf"} to
-#'        request sp or sf class objects, and \code{refresh}, which specifies whether or
+#'        Options include \code{class}, which can be set to \code{"sf"} (the default) or \code{"sp"} to
+#'        request sf or sp class objects, and \code{refresh}, which specifies whether or
 #'        not to re-download shapefiles (defaults to \code{FALSE}).
 #' @family general area functions
 #' @seealso \url{https://www2.census.gov/geo/pdfs/reference/GARM/Ch9GARM.pdf}
@@ -40,7 +40,7 @@ places <- function(state, cb = FALSE, year = NULL, ...) {
 
   if (length(state) > 1) {
     p <- lapply(state, function(x) {
-      places(state = x, cb = cb, year = year)
+      places(state = x, cb = cb, year = year, ...)
     }) %>%
       rbind_tigris()
 
@@ -49,7 +49,7 @@ places <- function(state, cb = FALSE, year = NULL, ...) {
 
   if (is.null(year)) {
 
-    year <- getOption("tigris_year", 2018)
+    year <- getOption("tigris_year", 2019)
 
   }
 

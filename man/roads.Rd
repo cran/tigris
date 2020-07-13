@@ -14,11 +14,11 @@ to download the roads for. Can also be state name or abbreviation
 \item{county}{The three-digit FIPS code of the county you'd like the roads for.
 Can also be a county name.}
 
-\item{year}{the data year (defaults to 2018).}
+\item{year}{the data year (defaults to 2019).}
 
 \item{...}{arguments to be passed to the underlying `load_tiger` function, which is not exported.
-Options include \code{class}, which can be set to \code{"sp"} (the default) or \code{"sf"} to
-request sp or sf class objects, and \code{refresh}, which specifies whether or
+Options include \code{class}, which can be set to \code{"sf"} (the default) or \code{"sp"} to
+request sf or sp class objects, and \code{refresh}, which specifies whether or
 not to re-download shapefiles (defaults to \code{FALSE}).}
 }
 \description{
@@ -32,32 +32,18 @@ walkways, stairways, alleys, and private roads."
 library(tigris)
 library(ggplot2)
 library(ggthemes)
-library(rgeos)
-library(sp)
 
 roads <- roads("Maine", "031")
 
-# for ggplot, we need to simplify the lines otherwise it'll take
-# forever to plot. however, gSimplify whacks the SpatialLinesDataFrame
-# so we need to re-bind the data from the original object to it so
-# we can use "fortify"
-
-roads_simp <- gSimplify(roads, tol=1/200, topologyPreserve=TRUE)
-roads_simp <- SpatialLinesDataFrame(roads_simp, roads@data)
-
-roads_map <- fortify(roads_simp) # this takes a bit
-
 gg <- ggplot()
-gg <- gg + geom_map(data=roads_map, map=roads_map,
-                    aes(x=long, y=lat, map_id=id),
-                    color="black", fill="white", size=0.25)
-gg <- gg + coord_map()
+gg <- gg + geom_sf(data = roads,
+                   color="black", fill="white", size=0.25)
 gg <- gg + theme_map()
 gg
 }
 }
 \seealso{
-\url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2018/TGRSHP2018_TechDoc.pdf}
+\url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2019/TGRSHP2019_TechDoc.pdf}
 
 Other transportation functions: 
 \code{\link{address_ranges}()},

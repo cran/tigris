@@ -7,11 +7,11 @@
 rails(year = NULL, ...)
 }
 \arguments{
-\item{year}{the data year (defaults to 2018).}
+\item{year}{the data year (defaults to 2019).}
 
 \item{...}{arguments to be passed to the underlying `load_tiger` function, which is not exported.
-Options include \code{class}, which can be set to \code{"sp"} (the default) or \code{"sf"} to
-request sp or sf class objects, and \code{refresh}, which specifies whether or
+Options include \code{class}, which can be set to \code{"sf"} (the default) or \code{"sp"} to
+request sf or sp class objects, and \code{refresh}, which specifies whether or
 not to re-download shapefiles (defaults to \code{FALSE}).}
 }
 \description{
@@ -21,16 +21,15 @@ monorails, mass transit, cog rail, incline rail, and trams.
 \examples{
 \dontrun{
 library(tigris)
-library(sp)
 
 rls <- rails()
 
-plot(rls)
+plot(rls$geometry)
 
 }
 }
 \seealso{
-\url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2018/TGRSHP2018_TechDoc.pdf}
+\url{http://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2019/TGRSHP2019_TechDoc.pdf}
 
 Other transportation functions: 
 \code{\link{address_ranges}()},
