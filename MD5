@@ -1,11 +1,11 @@
-30cc39e5e1580fdc659c8e2bed2dcbd5 *DESCRIPTION
+dbd28246bbc4726b7a7b8b4829b0e123 *DESCRIPTION
 0c48f2b4ee102cc65cf932296d8339e1 *LICENSE
 196882c4def4876c51eb9ebeabbff437 *NAMESPACE
 78057ee3fb0852fa045c2b94c7a2702d *NEWS
 978c0fa1120d42eb9d9f4d7bf16c5b95 *R/enumeration_units.R
 fb73c7d8a8a42905f0505a355a525e85 *R/fips_codes.R
 66ddb9f5d65299ec7abb2b1ded3d0f20 *R/geocode.R
-ec1dc2dbf31706187b5568b58301e133 *R/helpers.R
+adee03f9e8c96dd7dba213e7c7a8a3ce *R/helpers.R
 7974103f955a63845d8e38fc63846b3d *R/landmarks.R
 32fe28f43fbc3132669cdbd0807c8ba5 *R/legislative.R
 4664db145ed186c5d333fa5b6d764ee0 *R/metro_areas.R
@@ -13,7 +13,7 @@ f56a4407532efe4ab9180939db613284 *R/national.R
 338d05dfe72a3f4825d76ac5bdcd802f *R/native.R
 b15add2b885343c61154042cd95847dd *R/places.R
 fe7317fa0f7f1875d95d062c6ad7abbc *R/pumas.R
-326c07b9c6f07dd30cb8c2909db0ea6e *R/shift_geometry.R
+1681ea348d80a7f80cec9362ec96e576 *R/shift_geometry.R
 3bd03e1b68e749a24caaf46d195ce89f *R/states.R
 adffd69fe9ce4c91c5f4d7fdfd366b08 *R/tigris-package.R
 841c430c32441c525ab713613110b601 *R/transportation.R
@@ -21,7 +21,7 @@ adffd69fe9ce4c91c5f4d7fdfd366b08 *R/tigris-package.R
 2218f9c0d5aeadff60657c329ff3f386 *R/water.R
 5ae327f1f9a8e6001e4db991aa905d4d *R/zzz.R
 e3d280bbd124f34aaf5181a79df192ea *README.md
-6fad4cb378c9c79bcb7950566d9cd76a *data/fips_codes.rda
+c2dc58d08d5846713650da2302a7a70d *data/fips_codes.rda
 3990d48744a21f63ae03f0ab873e73db *man/address_ranges.Rd
 6abdc05468b2ebb0ab4477805d430ec3 *man/alaska_native_regional_corporations.Rd
 853756337cf5582621c70a1d359f36fc *man/append_geoid.Rd

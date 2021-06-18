@@ -28,7 +28,7 @@ tigris_cache_dir <- function(path) {
 
   if (isTRUE(any(grepl("TIGRIS_CACHE_DIR", check)))) {
     oldenv <- read.table(renv, stringsAsFactors = FALSE)
-    newenv <- oldenv[-grep("TIGRIS_CACHE_DIR", oldenv),]
+    newenv <- oldenv[!grepl("TIGRIS_CACHE_DIR", oldenv$V1), ]
     write.table(newenv, renv, quote = FALSE, sep = "\n",
                 col.names = FALSE, row.names = FALSE)
   }
@@ -299,6 +299,10 @@ load_tiger <- function(url,
 #'
 #' }
 geo_join <- function(spatial_data, data_frame, by_sp, by_df, by = NULL, how = 'left') {
+
+  .Deprecated("dplyr::left_join()",
+              package = "tigris",
+              msg = "We recommend using the dplyr::*_join() family of functions instead.")
 
   if (!is.null(by)) {
     by_sp <- by
