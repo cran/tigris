@@ -1,8 +1,8 @@
 Package: tigris
 Type: Package
 Title: Load Census TIGER/Line Shapefiles
-Version: 1.5.1
-Date: 2022-02-07
+Version: 1.6
+Date: 2022-02-22
 Authors@R: c(
       person(given="Kyle", family="Walker", email="kyle@walker-data.com", role=c("aut", "cre")),
       person(given="Bob", family="Rudis", email="bob@rudis.net", role="ctb")
@@ -22,9 +22,9 @@ Imports: stringr, magrittr, rgdal, sp, utils, rappdirs, maptools, httr,
         uuid, sf, dplyr, methods
 RoxygenNote: 7.1.2
 NeedsCompilation: no
-Packaged: 2022-02-07 19:16:14 UTC; kyle
+Packaged: 2022-02-22 20:59:17 UTC; kyle
 Author: Kyle Walker [aut, cre],
   Bob Rudis [ctb]
 Maintainer: Kyle Walker <kyle@walker-data.com>
 Repository: CRAN
-Date/Publication: 2022-02-07 19:40:02 UTC
+Date/Publication: 2022-02-22 21:30:02 UTC

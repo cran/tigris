@@ -8,7 +8,7 @@
 #'
 #' @param cb If cb is set to TRUE, download a generalized (1:500k)
 #'        file.  Defaults to FALSE (the most detailed TIGER/Line file)
-#' @param year the data year (defaults to 2019).
+#' @param year the data year (defaults to 2020).
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{class}, which can be set to \code{"sf"} (the default) or \code{"sp"} to
 #'        request sf or sp class objects, and \code{refresh}, which specifies whether or
@@ -34,7 +34,9 @@ native_areas <- function(cb = FALSE, year = NULL, ...) {
 
   if (is.null(year)) {
 
-    year <- getOption("tigris_year", 2019)
+    year <- getOption("tigris_year", 2020)
+
+    message(sprintf("Retrieving data for the year %s", year))
 
   }
 
@@ -63,7 +65,7 @@ native_areas <- function(cb = FALSE, year = NULL, ...) {
 
   }
 
-  return(load_tiger(url, ...))
+  return(load_tiger(url, tigris_type = "native areas", ...))
 
 }
 
@@ -74,7 +76,9 @@ native_areas <- function(cb = FALSE, year = NULL, ...) {
 #' recognized American Indian reservations and/or off-reservation trust lands or Oklahoma tribal statistical
 #' areas (OTSAs)."  For more information, please see the link provided.
 #'
-#' @param year The year for which you'd like to download data (defaults to 2019).
+#' @param cb If cb is set to TRUE, download a generalized (1:500k)
+#'        file.  Defaults to FALSE (the most detailed TIGER/Line file)
+#' @param year The year for which you'd like to download data (defaults to 2020).
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{class}, which can be set to \code{"sf"} (the default) or \code{"sp"} to
 #'        request sf or sp class objects, and \code{refresh}, which specifies whether or
@@ -93,11 +97,13 @@ native_areas <- function(cb = FALSE, year = NULL, ...) {
 #'               color = "black",
 #'               weight = 0.5)
 #' }
-tribal_subdivisions_national <- function(year = NULL, ...) {
+tribal_subdivisions_national <- function(cb = FALSE, year = NULL, ...) {
 
   if (is.null(year)) {
 
-    year <- getOption("tigris_year", 2019)
+    year <- getOption("tigris_year", 2020)
+
+    message(sprintf("Retrieving data for the year %s", year))
 
   }
 
@@ -112,21 +118,22 @@ tribal_subdivisions_national <- function(year = NULL, ...) {
 
   }
 
-  if (year == 2015) {
-
-    url <- "https://www2.census.gov/geo/tiger/TIGER2015/AITSN/tl_2015_us_aitsn.zip"
-
+  if (cb) {
+    url <- sprintf("https://www2.census.gov/geo/tiger/GENZ%s/shp/cb_%s_us_aitsn_500k.zip",
+                   year, year)
   } else {
-
-    url <- paste0("https://www2.census.gov/geo/tiger/TIGER",
-                  as.character(year),
-                  "/AITS/tl_",
-                  as.character(year),
-                  "_us_aitsn.zip")
-
+    if (year < 2015) {
+      url <- sprintf("https://www2.census.gov/geo/tiger/TIGER%s/AITS/tl_%s_us_aitsn.zip",
+                     year, year)
+    } else {
+      url <- sprintf("https://www2.census.gov/geo/tiger/TIGER%s/AITSN/tl_%s_us_aitsn.zip",
+                     year, year)
+    }
   }
 
-  return(load_tiger(url, ...))
+
+
+  return(load_tiger(url, tigris_type = "tribal subdivisions", ...))
 
 }
 
@@ -140,7 +147,7 @@ tribal_subdivisions_national <- function(year = NULL, ...) {
 #'
 #' @param cb If cb is set to TRUE, download a generalized (1:500k)
 #'        file.  Defaults to FALSE (the most detailed TIGER/Line file)
-#' @param year the data year (defaults to 2019).
+#' @param year the data year (defaults to 2020).
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{class}, which can be set to \code{"sf"} (the default) or \code{"sp"} to
 #'        request sf or sp class objects, and \code{refresh}, which specifies whether or
@@ -152,7 +159,9 @@ alaska_native_regional_corporations <- function(cb = FALSE, year = NULL, ...) {
 
   if (is.null(year)) {
 
-    year <- getOption("tigris_year", 2019)
+    year <- getOption("tigris_year", 2020)
+
+    message(sprintf("Retrieving data for the year %s", year))
 
   }
 
@@ -181,7 +190,7 @@ alaska_native_regional_corporations <- function(cb = FALSE, year = NULL, ...) {
 
   }
 
-  return(load_tiger(url, ...))
+  return(load_tiger(url, tigris_type = "ANRCs", ...))
 
 }
 
@@ -202,7 +211,9 @@ alaska_native_regional_corporations <- function(cb = FALSE, year = NULL, ...) {
 #' but may contain blocks from several different
 #' standard census block groups."  For more information, please see the link provided.
 #'
-#' @param year the data year (defaults to 2019).
+#' @param cb If cb is set to TRUE, download a generalized (1:500k)
+#'        file.  Defaults to FALSE (the most detailed TIGER/Line file)
+#' @param year the data year (defaults to 2020).
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{class}, which can be set to \code{"sf"} (the default) or \code{"sp"} to
 #'        request sf or sp class objects, and \code{refresh}, which specifies whether or
@@ -221,11 +232,13 @@ alaska_native_regional_corporations <- function(cb = FALSE, year = NULL, ...) {
 #'               color = "black",
 #'               weight = 0.5)
 #' }
-tribal_block_groups <- function(year = NULL, ...) {
+tribal_block_groups <- function(cb = TRUE, year = NULL, ...) {
 
   if (is.null(year)) {
 
-    year <- getOption("tigris_year", 2019)
+    year <- getOption("tigris_year", 2020)
+
+    message(sprintf("Retrieving data for the year %s", year))
 
   }
 
@@ -240,10 +253,16 @@ tribal_block_groups <- function(year = NULL, ...) {
 
   }
 
-  url <- sprintf("https://www2.census.gov/geo/tiger/TIGER%s/TBG/tl_%s_us_tbg.zip",
-                 as.character(year), as.character(year))
+  if (cb) {
+    url <- sprintf("https://www2.census.gov/geo/tiger/GENZ%s/shp/cb_%s_us_tbg_500k.zip")
+  } else {
+    url <- sprintf("https://www2.census.gov/geo/tiger/TIGER%s/TBG/tl_%s_us_tbg.zip",
+                   year, year)
+  }
 
-  return(load_tiger(url, ...))
+
+
+  return(load_tiger(url, tigris_type = "tribal block groups", ...))
 
 }
 
@@ -259,7 +278,9 @@ tribal_block_groups <- function(year = NULL, ...) {
 #' census tracts. Unlike standard census tracts, however, tribal census tracts may cross state, county, and
 #' standard census tract boundaries." For more information, please view the link provided.
 #'
-#' @param year the data year (defaults to 2019).
+#' @param cb If cb is set to TRUE, download a generalized (1:500k)
+#'        file.  Defaults to FALSE (the most detailed TIGER/Line file)
+#' @param year the data year (defaults to 2020).
 #' @param ... arguments to be passed to the underlying `load_tiger` function, which is not exported.
 #'        Options include \code{class}, which can be set to \code{"sf"} (the default) or \code{"sp"} to
 #'        request sf or sp class objects, and \code{refresh}, which specifies whether or
@@ -278,11 +299,13 @@ tribal_block_groups <- function(year = NULL, ...) {
 #'               color = "black",
 #'               weight = 0.5)
 #' }
-tribal_census_tracts <- function(year = NULL, ...) {
+tribal_census_tracts <- function(cb = TRUE, year = NULL, ...) {
 
   if (is.null(year)) {
 
-    year <- getOption("tigris_year", 2019)
+    year <- getOption("tigris_year", 2020)
+
+    message(sprintf("Retrieving data for the year %s", year))
 
   }
 
@@ -297,9 +320,16 @@ tribal_census_tracts <- function(year = NULL, ...) {
 
   }
 
-  url <- sprintf("https://www2.census.gov/geo/tiger/TIGER%s/TTRACT/tl_%s_us_ttract.zip",
-                 as.character(year), as.character(year))
+  if (cb) {
+    url <- sprintf("https://www2.census.gov/geo/tiger/GENZ%s/shp/cb_%s_us_ttract_500k.zip",
+                   year, year)
+  } else {
+    url <- sprintf("https://www2.census.gov/geo/tiger/TIGER%s/TTRACT/tl_%s_us_ttract.zip",
+                   year, year)
+  }
 
-  return(load_tiger(url, ...))
+
+
+  return(load_tiger(url, tigris_type = "tribal tracts", ...))
 
 }
