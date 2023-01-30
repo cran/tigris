@@ -1,14 +1,14 @@
-948a0e5370f33287029cc8bd16bfe222 *DESCRIPTION
+946ab4cfc6a5be7dc28bfe49b91cf3ff *DESCRIPTION
 0c48f2b4ee102cc65cf932296d8339e1 *LICENSE
 d41e4064808f765db7c8a18a7e846a03 *NAMESPACE
 00447ef7cda7a8fc5b27efff51342938 *NEWS
-9bb6add80a48742e98e2be29855ce993 *R/enumeration_units.R
+9fe010b63d1b168a8f5129b03f096614 *R/enumeration_units.R
 1eeffb95720858a9dfafcafa92d4b23a *R/fips_codes.R
 04236bea6dda24f193863afb99724dac *R/geocode.R
 e9111a9396de0eaefaa811842ad47cb1 *R/helpers.R
 04a312b1521428c5537b6b4fc597453a *R/landmarks.R
 6c2e70fd6af72913c902900d1531f22d *R/legislative.R
-da7b42bc9aa06752ae14f10b336bf993 *R/metro_areas.R
+04c0bc93d53d90b4da1d0a6f59f82683 *R/metro_areas.R
 27f3b29e4d1a37ed09d4f2c0b0d7bdaa *R/national.R
 498ead0e2751335dc09beb282b5586a8 *R/native.R
 99df60f029a638c834bb2a816d5b36ac *R/places.R
@@ -78,7 +78,7 @@ cde0daf3b24761e1d9ef6470a616e349 *man/tigris_cache_dir.Rd
 a2380a6eabb20a7e233774a218c39f32 *man/tribal_block_groups.Rd
 da1936aff3d3f547f8b1b37605a56696 *man/tribal_census_tracts.Rd
 8cc03d3af2c0a7a8016d65c0115bfddc *man/tribal_subdivisions_national.Rd
-28997232e3a42ac2650f76146e7a94d1 *man/urban_areas.Rd
+dfb1d0bff0ee6175b05bc922653572c9 *man/urban_areas.Rd
 811eb6e94119254de0450fbb51e5d4b4 *man/voting_districts.Rd
 3d366b7bc14590472cd350f7bd3fc3c0 *man/zctas.Rd
 138bf69d083c0fcf24b3326bb98479ce *tests/testthat.R
