@@ -217,6 +217,8 @@ counties <- function(state = NULL, cb = FALSE, resolution = '500k', year = NULL,
 #'        Can also be a county name or vector of names.
 #' @param cb If cb is set to TRUE, download a generalized (1:500k)
 #'        tracts file.  Defaults to FALSE (the most detailed TIGER/Line file)
+#' @param resolution The resolution of the cartographic boundary file (if using cb = TRUE).
+#'        Defaults to '500k'; the other option is '5m' (1:5 million).  Resolution of '5m' is #'        only available for the national Census tract file for years 2022 and later.
 #' @inheritParams load_tiger_doc_template
 #' @inheritSection load_tiger_doc_template Additional Arguments
 #' @family general area functions
@@ -232,7 +234,8 @@ counties <- function(state = NULL, cb = FALSE, resolution = '500k', year = NULL,
 #'   addTiles() %>%
 #'   addPolygons(popup = ~NAME)
 #' }
-tracts <- function(state = NULL, county = NULL, cb = FALSE, year = NULL, ...) {
+tracts <- function(state = NULL, county = NULL, cb = FALSE, resolution = "500k",
+                   year = NULL, ...) {
 
   if (is.null(year)) {
 
@@ -240,6 +243,10 @@ tracts <- function(state = NULL, county = NULL, cb = FALSE, year = NULL, ...) {
 
     message(sprintf("Retrieving data for the year %s", year))
 
+  }
+
+  if ((resolution == "5m" && year < 2022) | (resolution == "5m" && !is.null(state))) {
+    stop("`resolution = '5m'` for Census tracts is only available for the national Census tract CB file in years 2022 and later.", call. = FALSE)
   }
 
   if (is.null(state)) {
@@ -274,8 +281,8 @@ tracts <- function(state = NULL, county = NULL, cb = FALSE, year = NULL, ...) {
 
       if (year > 2013) {
 
-        url <- sprintf("https://www2.census.gov/geo/tiger/GENZ%s/shp/cb_%s_%s_tract_500k.zip",
-                       as.character(year), as.character(year), state)
+        url <- sprintf("https://www2.census.gov/geo/tiger/GENZ%s/shp/cb_%s_%s_tract_%s.zip",
+                       as.character(year), as.character(year), state, resolution)
 
       } else {
 
@@ -710,6 +717,10 @@ zctas <- function(cb = FALSE, starts_with = NULL, year = NULL, state = NULL, ...
 
   }
 
+  if (year > 2020 && cb) {
+    stop(sprintf("The Census Bureau has not yet released the CB ZCTA file for %s. Please use the argument `year = 2020` or `cb = FALSE` instead.", year), call. = FALSE)
+  }
+
   if (!is.null(state) && year > 2010) {
     stop("ZCTAs are only available by state for 2000 and 2010.")
   }
@@ -742,6 +753,7 @@ zctas <- function(cb = FALSE, starts_with = NULL, year = NULL, state = NULL, ...
         url <- sprintf("https://www2.census.gov/geo/tiger/PREVGENZ/zt/z500shp/zt%s_d00_shp.zip",
                        state)
       }
+
     } else if (year == 2010) {
 
       url <- "https://www2.census.gov/geo/tiger/GENZ2010/gz_2010_us_860_00_500k.zip"
@@ -786,6 +798,11 @@ zctas <- function(cb = FALSE, starts_with = NULL, year = NULL, state = NULL, ...
   }
 
   zcta <- load_tiger(url, tigris_type="zcta", ...)
+
+  # Handle split ZCTAs in 2000 CB file
+  if (year == 2000 && cb) {
+    warning("CB ZCTAs for 2000 include separate polygons for discontiguous parts.\nCombine by summarizing over the ZCTA column; this can be a time-consuming operation.")
+  }
 
   if (!is.null(starts_with)) {
     nms <- names(zcta)
