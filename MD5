@@ -1,4 +1,4 @@
-b2d14466075391fe771fd85a48b8fbf6 *DESCRIPTION
+0210cc5c079ae49f70f89275bfcfb3db *DESCRIPTION
 0c48f2b4ee102cc65cf932296d8339e1 *LICENSE
 d41e4064808f765db7c8a18a7e846a03 *NAMESPACE
 00447ef7cda7a8fc5b27efff51342938 *NEWS
@@ -12,7 +12,7 @@ e9111a9396de0eaefaa811842ad47cb1 *R/helpers.R
 27f3b29e4d1a37ed09d4f2c0b0d7bdaa *R/national.R
 050f09371a71a79ef61f84b6db3ba8d0 *R/native.R
 20bd116626793d0d031a4018c5e57587 *R/places.R
-47777250744d11fd6ae5e35bac38a92f *R/pumas.R
+cc4025b6caf01110ea4cbf40d112a68a *R/pumas.R
 2563b2d7e01a5cb7dbeba84b1ac80256 *R/shift_geometry.R
 037f6fb818de0d242c92fdbbcd7202b9 *R/states.R
 e8abed1560ede8f7b5d35d73ec8be9ca *R/tigris-package.R
@@ -21,7 +21,7 @@ d2f7786c4338d63e50c533fe5c9a2b81 *R/transportation.R
 e3385d46e6cbd1342deb115225f7aff8 *R/water.R
 d5272dc1456da2b15aa99945b3089f0a *R/zzz.R
 e27d785111c8c0d1de375ff4c1ea577a *README.md
-84c14a9e20dc77b93c7f9d03e866ed65 *data/fips_codes.rda
+f4e1a453084661e1342c3b89c7a6fde3 *data/fips_codes.rda
 9c22bc940f512f5c81b69a5ea18372a6 *man/address_ranges.Rd
 e8365fe2bce747a3236777a12f5673be *man/alaska_native_regional_corporations.Rd
 6c888f0f10970d7489ddddaac73fa64c *man/append_geoid.Rd
@@ -61,7 +61,7 @@ d0375733bec931d1e43d779eb1b5ac56 *man/new_england.Rd
 6af8e947737e41385b8b1177c9e319d1 *man/places.Rd
 eeee72653b1f023ff841099652b554d5 *man/primary_roads.Rd
 735ed7be6451e62f2371b1ffff0e8e33 *man/primary_secondary_roads.Rd
-996461de46d202274a7915fc655ed09b *man/pumas.Rd
+8c4689cd2ce69a0cd50b2a4f5e80aa4f *man/pumas.Rd
 b4455f78e997da62377f64f9e7823e51 *man/rails.Rd
 178aab9281e94bff403ba5b8ecd3d4f7 *man/rbind_tigris.Rd
 13cdecedca7853215a94c9ff83d21df6 *man/regions.Rd
