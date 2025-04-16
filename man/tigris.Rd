@@ -2,6 +2,7 @@
 % Please edit documentation in R/tigris-package.R
 \docType{package}
 \name{tigris}
+\alias{tigris-package}
 \alias{tigris}
 \title{Download and use U.S. Census TIGER shapefiles in R}
 \description{
@@ -23,10 +24,26 @@ Use option \code{tigris_class} to specify the class of spatial object you'd like
 The default is \code{"sf"} for simple features objects.  If you'd like a legacy object
 of class \code{Spatial*DataFrame}, use \code{options(tigris_class = "sp")}. Please note
 that legacy sp objects are no longer formally supported in tigris.
+
+Use the \code{protocol} argument in data download functions to specify whether to use FTP or HTTP
+for downloading files. The default is \code{"ftp"}, which may work better in some environments
+where HTTPS connections are restricted. For HTTPS downloads, use \code{protocol = "http"}.
+
+Use the \code{timeout} parameter to control the timeout for downloading large files when the protocol is FTP. The default is
+1800 seconds (30 minutes), which should be sufficient for most files. If you're downloading particularly
+large files or have a slow connection, you may need to increase this value.
 }
 \note{
-Four \code{options} control behavior of various \code{tigris} functions.
+Several \code{options} and arguments control behavior of various \code{tigris} functions.
 See \code{Details} for more information.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/walkerke/tigris}
+  \item Report bugs at \url{https://github.com/walkerke/tigris/issues}
+}
+
 }
 \author{
 Kyle Walker (@kyle_e_walker)
